@@ -1,0 +1,23 @@
+
+
+```{r}
+library(tidyverse)
+survey_data <- read_csv("Survey Data-20221018T183658Z-001/Survey Data/People of the Guana Peninsula Survey_October 3, 2022_12.36.csv")
+
+
+library(janitor)
+# get the first row as the col names
+survey_data_q <-
+  survey_data %>%
+  row_to_names(row_number = 1)
+```
+
+
+```{r}
+# Q1: Have you visited the GTM Research Reserve?
+survey_data_q  %>%
+  select(`Have you visited the GTM Research Reserve?`) %>%
+  ggplot() +
+    aes(`Have you visited the GTM Research Reserve?`) +
+    geom_bar()
+```
