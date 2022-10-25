@@ -10,6 +10,7 @@ library(janitor)
 survey_data_q <-
   survey_data %>%
   row_to_names(row_number = 1)
+
 ```
 
 
@@ -21,3 +22,22 @@ survey_data_q  %>%
     aes(`Have you visited the GTM Research Reserve?`) +
     geom_bar()
 ```
+
+
+```{r}
+# Q2: When you come to the Guana Tolomato Matanzas (GTM) Research Reserve, what kind of activities do you engage in?
+survey_data_q  %>%
+  select(`When you visit the GTM Research Reserve, what kind of activities do you engage in? Check all that apply. - Selected Choice`) %>%
+mutate(activity = strsplit(`When you visit the GTM Research Reserve, what kind of activities do you engage in? Check all that apply. - Selected Choice`, ",")) %>% 
+  unnest(activity) %>% 
+  mutate(value = 1)  %>% 
+  group_by(activity) %>% 
+  summarise(n_activity = sum(value)) %>% 
+  ggplot() +
+    aes(reorder(activity, n_activity), n_activity) +
+    geom_col() +
+  coord_flip()
+
+
+```
+
