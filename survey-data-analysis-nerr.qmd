@@ -41,3 +41,20 @@ mutate(activity = strsplit(`When you visit the GTM Research Reserve, what kind o
 
 ```
 
+
+
+## Demographics
+
+Age
+
+
+
+Ethnicity
+
+
+
+Gender Identity
+
+
+
+highest degree or level of schooling 
