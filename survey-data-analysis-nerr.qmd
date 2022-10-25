@@ -2,7 +2,7 @@
 
 ```{r}
 library(tidyverse)
-survey_data <- read_csv("Survey Data-20221018T183658Z-001/Survey Data/People of the Guana Peninsula Survey_October 3, 2022_12.36.csv")
+survey_data <- read_csv("People of the Guana Peninsula Survey_October 3, 2022_12.36.csv")
 
 
 library(janitor)
