@@ -106,7 +106,29 @@ survey_data_q  %>%
     facet_wrap( ~ name)
 ```
 
+```{r}
+# Q5: Have you encountered any of these cultural resources while at the GTM Research Reserve? 
 
+survey_data_q %>% 
+  select(starts_with("Have you encountered any of these cultural resources while at the GTM Research Reserve?")) %>%
+  pivot_longer(everything()) %>% 
+  mutate(name = str_remove_all(name, "Have you encountered any of these cultural resources while at the GTM Research Reserve\\? - ")) %>% 
+  drop_na() %>% 
+  mutate(value = str_squish(value)) %>% 
+ mutate(value = fct_relevel(value,
+                            c("Never Encountered",
+                              "Rarely Encountered",
+                              "Frequently Encountered",
+                              "Unsure"))) %>%
+  group_by(name, value) %>% 
+  summarise(n = n()) %>% 
+  # plot
+  ggplot() +
+    aes(value, n) +
+    geom_col() +
+    coord_flip() +
+    facet_wrap( ~ name)
+```
 
 
 ## Demographics
