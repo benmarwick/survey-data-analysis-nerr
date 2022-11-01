@@ -138,6 +138,7 @@ survey_data_q %>%
 
 ## Demographics
 
+
 Age Range
 
 ```{r}
@@ -169,6 +170,29 @@ mutate(value = str_squish(value)) %>%
 
 
 Ethnicity
+```{r}
+survey_data_q %>% 
+  select(starts_with("Ethinicity - Selected Choice")) %>%
+  pivot_longer(everything()) %>% 
+  mutate(name = str_remove_all(name, "Gender Identity - Selected Choice")) %>% 
+  drop_na() %>% 
+  mutate(value = str_squish(value)) %>% 
+ mutate(value = fct_relevel(value,
+                            c("Caucasian (non-Hispanic)",
+                              "African-American",
+                              "Asian/Pacific Islander",
+                              "Multi-racial",
+                              "Prefer to self-identify as",
+                              "Prefer not to answer"))) %>%
+  group_by(name, value) %>% 
+  summarise(n = n()) %>% 
+  # plot
+  ggplot() +
+    aes(value, n) +
+    geom_col() +
+    coord_flip() +
+    facet_wrap( ~ name)
+```
 
 
 
@@ -201,3 +225,4 @@ survey_data_q %>%
 
 
 highest degree or level of schooling 
+
