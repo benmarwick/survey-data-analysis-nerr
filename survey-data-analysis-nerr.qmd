@@ -1,4 +1,9 @@
-
+---
+title: "Analysis of coastal heritage survey data from the People of the Guana Peninsula, Florida"
+date: now
+execute: 
+  warning: false
+---
 
 ```{r}
 library(tidyverse)
@@ -141,7 +146,7 @@ survey_data_q  %>%
   pivot_longer(everything()) %>%
   mutate(name = str_remove_all(name, "Age Range")) %>% 
   # should I drop NA's here?
-  drop_na() %>% 
+  # drop_na() %>% 
 mutate(value = str_squish(value)) %>% 
  mutate(value = fct_relevel(value,
                             c("18 - 29",
