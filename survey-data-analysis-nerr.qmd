@@ -134,21 +134,22 @@ survey_data_q %>%
 ## Demographics
 
 Age Range
+
 ```{r}
 survey_data_q  %>%
   select(starts_with("Age Range")) %>%
   pivot_longer(everything()) %>%
   mutate(name = str_remove_all(name, "Age Range")) %>% 
   # should I drop NA's here?
-  drop_na()
+  drop_na() %>% 
 mutate(value = str_squish(value)) %>% 
  mutate(value = fct_relevel(value,
-                            c("18-29",
-                              "30-39",
-                              "40-49",
-                              "50-59",
-                              "60-69",
-                              "70-79",
+                            c("18 - 29",
+                              "30 - 39",
+                              "40 - 49",
+                              "50 - 59",
+                              "60 - 69",
+                              "70 - 79",
                               "80 or older"))) %>%
    group_by(name, value) %>% 
   summarise(n = n()) %>% 
@@ -158,8 +159,6 @@ mutate(value = str_squish(value)) %>%
     geom_col() +
     coord_flip() +
     facet_wrap( ~ name)
- 
- 
 ```
 
 
@@ -169,6 +168,8 @@ Ethnicity
 
 
 Gender Identity
+
+
 ```{r}
 survey_data_q %>% 
   select(starts_with("Gender Identity - Selected Choice")) %>%
@@ -189,6 +190,8 @@ survey_data_q %>%
     coord_flip() +
     facet_wrap( ~ name)
 ```
+
+
 (Gender Identity - Prefer to self-identify as: - Text)
 
 
