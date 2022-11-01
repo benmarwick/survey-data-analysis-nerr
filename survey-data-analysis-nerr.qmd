@@ -169,7 +169,7 @@ Ethnicity
 survey_data_q %>% 
   select(starts_with("Ethinicity - Selected Choice")) %>%
   pivot_longer(everything()) %>% 
-  mutate(name = str_remove_all(name, "Gender Identity - Selected Choice")) %>% 
+  mutate(name = str_remove_all(name, "Ethnicity - Selected Choice")) %>% 
   drop_na() %>% 
   mutate(value = str_squish(value)) %>% 
  mutate(value = fct_relevel(value,
@@ -187,6 +187,7 @@ survey_data_q %>%
     geom_col() +
     coord_flip() +
     facet_wrap( ~ name)
+  
 ```
 
 
@@ -220,4 +221,29 @@ survey_data_q %>%
 
 
 highest degree or level of schooling 
+
+```{r}
+survey_data_q %>% 
+  select(starts_with("Please select the highest degree or level of schooling you have completed")) %>%
+  pivot_longer(everything()) %>% 
+  mutate(name = str_remove_all(name, "Please select the highest degree or level of schooling you have completed")) %>% 
+  drop_na() %>% 
+  mutate(value = str_squish(value)) %>% 
+ mutate(value = fct_relevel(value,
+                            c("Master's degree",
+                              "Bachelor's degee",
+                              "Doctorate degree",
+                              "Trade/technical/vocational training",
+                              "Some college credit, no degree",
+                              "Prefer not to answer"))) %>%
+  group_by(name, value) %>% 
+  summarise(n = n()) %>% 
+  # plot
+  ggplot() +
+    aes(value, n) +
+    geom_col() +
+    coord_flip() +
+    facet_wrap( ~ name)
+  
+```
 
