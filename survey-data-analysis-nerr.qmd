@@ -251,16 +251,8 @@ survey_data_q %>%
 # Q8. What do you see as the biggest threat to cultural resources? 
 
 survey_data_q  %>%
-  select(starts_with("What do you see as the biggest threat to cultural resources?")) %>%
-  select(ends_with("Sea Level Rise"),
-                   ends_with("Increased and Intensified Storm Events"),
-                   ends_with("Flooding"),
-                   ends_with("Wave Action"),
-                   ends_with("Development"),
-                   ends_with("Management Issues"),
-                   ends_with("Overuse"),
-                   ends_with("Infrastructure (eg. construction of roads"),
-                   ends_with("Other (please describe)")) %>% 
+  select(starts_with("What do you see as the biggest threat to cultural resources?")) %>% 
+  select(- ends_with("Text")) %>% 
   pivot_longer(everything()) %>% 
   mutate(name = str_remove_all(name, "What do you see as the biggest threat to cultural resources\\? Please drag the choices to rank them with the most threatening as 1\\. - ")) %>% 
   drop_na() %>% 
@@ -274,6 +266,7 @@ survey_data_q  %>%
     facet_wrap( ~ name)
 
 #Omitted the column containing free text (other). Is there a better way to do Q8?
+
 ```
  
 
