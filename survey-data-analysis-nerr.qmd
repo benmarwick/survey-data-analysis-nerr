@@ -268,8 +268,3 @@ survey_data_q  %>%
 #Omitted the column containing free text (other). Is there a better way to do Q8?
 
 ```
- 
-
-
-
-
