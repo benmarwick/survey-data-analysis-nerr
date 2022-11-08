@@ -175,7 +175,7 @@ Ethnicity
 survey_data_q %>% 
   select(starts_with("Ethinicity - Selected Choice")) %>%
   pivot_longer(everything()) %>% 
-  mutate(name = str_remove_all(name, "Gender Identity - Selected Choice")) %>% 
+  mutate(name = str_remove_all(name, "Ethnicity - Selected Choice")) %>% 
   drop_na() %>% 
   mutate(value = str_squish(value)) %>% 
  mutate(value = fct_relevel(value,
@@ -193,6 +193,7 @@ survey_data_q %>%
     geom_col() +
     coord_flip() +
     facet_wrap( ~ name)
+  
 ```
 
 
@@ -226,4 +227,82 @@ survey_data_q %>%
 
 
 highest degree or level of schooling 
+
+```{r}
+survey_data_q %>% 
+  select(starts_with("Please select the highest degree or level of schooling you have completed")) %>%
+  pivot_longer(everything()) %>% 
+  mutate(name = str_remove_all(name, "Please select the highest degree or level of schooling you have completed")) %>% 
+  drop_na() %>% 
+  mutate(value = str_squish(value)) %>% 
+ mutate(value = fct_relevel(value,
+                            c("Master's degree",
+                              "Bachelor's degee",
+                              "Doctorate degree",
+                              "Trade/technical/vocational training",
+                              "Some college credit, no degree",
+                              "Prefer not to answer"))) %>%
+  group_by(name, value) %>% 
+  summarise(n = n()) %>% 
+  # plot
+  ggplot() +
+    aes(value, n) +
+    geom_col() +
+    coord_flip() +
+    facet_wrap( ~ name)
+  
+```
+```{r}
+# Q7. Have you noticed or experienced any of the following effects from climate change while visiting the Reserve?
+
+survey_data_q  %>%
+  select(starts_with("Have you noticed or experienced any of the following effects from climate change while visiting the Reserve?")) %>% 
+  pivot_longer(everything()) %>% 
+  mutate(name = str_remove_all(name, "Have you noticed or experienced any of the following effects from climate change while visiting the Reserve? - ")) %>% 
+  drop_na() %>% 
+mutate(value = str_squish(value)) %>% 
+ mutate(value = fct_relevel(value,
+                            c("Increased Coastal Erosion",
+                              "Increased Flooding Events",
+                              "Increased Frequency and/or Severity of Storm Surge",
+                              "Higher Water Table",
+                              "Increased and Intensified Storm Events",
+                              "Increased Temperatures",
+                              
+                              "Changes in Seasonality",
+                              "Species Shifts/Extinctions")))%>%
+  group_by(name, value) %>% 
+  summarise(n = n()) %>% 
+  ggplot() +
+    aes(value, n) +
+    geom_col() +
+    coord_flip() +
+    facet_wrap( ~ name)
+```
+
+```{r}
+# Q8. What do you see as the biggest threat to cultural resources? 
+
+survey_data_q  %>%
+  select(starts_with("What do you see as the biggest threat to cultural resources?")) %>% 
+  select(- ends_with("Text")) %>% 
+  pivot_longer(everything()) %>% 
+  mutate(name = str_remove_all(name, "What do you see as the biggest threat to cultural resources\\? Please drag the choices to rank them with the most threatening as 1\\. - ")) %>% 
+  drop_na() %>% 
+  mutate(value = str_squish(value)) %>% 
+  group_by(name, value) %>% 
+  summarise(n = n()) %>% 
+  ggplot() +
+    aes(value, n) +
+    geom_col() +
+    coord_flip() +
+    facet_wrap( ~ name)
+
+#Omitted the column containing free text (other). Is there a better way to do Q8?
+
+```
+ 
+
+
+
 
