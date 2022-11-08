@@ -248,6 +248,7 @@ survey_data_q %>%
 ```
 ```{r}
 # Q7. Have you noticed or experienced any of the following effects from climate change while visiting the Reserve?
+# There is definitely a better and more legible way to do this. I want to reorder the axes and see if that helps, but I'm sure there's a faster way to pull.
 
 survey_data_q  %>%
   select(starts_with("Have you noticed or experienced any of the following effects from climate change while visiting the Reserve?")) %>% 
@@ -264,9 +265,10 @@ mutate(value = str_squish(value)) %>%
                               "Increased Temperatures",
                               
                               "Changes in Seasonality",
-                              "Species Shifts/Extinctions")))%>%
+                              "Species Shifts/Extinctions"))) %>%
   group_by(name, value) %>% 
-  summarise(n = n()) %>% 
+  summarise(n = n()) %>%
+  #plot
   ggplot() +
     aes(value, n) +
     geom_col() +
