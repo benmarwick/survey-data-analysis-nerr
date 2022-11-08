@@ -246,6 +246,33 @@ survey_data_q %>%
     facet_wrap( ~ name)
   
 ```
+```{r}
+# Q7. Have you noticed or experienced any of the following effects from climate change while visiting the Reserve?
+
+survey_data_q  %>%
+  select(starts_with("Have you noticed or experienced any of the following effects from climate change while visiting the Reserve?")) %>% 
+  pivot_longer(everything()) %>% 
+  mutate(name = str_remove_all(name, "Have you noticed or experienced any of the following effects from climate change while visiting the Reserve? - ")) %>% 
+  drop_na() %>% 
+mutate(value = str_squish(value)) %>% 
+ mutate(value = fct_relevel(value,
+                            c("Increased Coastal Erosion",
+                              "Increased Flooding Events",
+                              "Increased Frequency and/or Severity of Storm Surge",
+                              "Higher Water Table",
+                              "Increased and Intensified Storm Events",
+                              "Increased Temperatures",
+                              
+                              "Changes in Seasonality",
+                              "Species Shifts/Extinctions")))%>%
+  group_by(name, value) %>% 
+  summarise(n = n()) %>% 
+  ggplot() +
+    aes(value, n) +
+    geom_col() +
+    coord_flip() +
+    facet_wrap( ~ name)
+```
 
 ```{r}
 # Q8. What do you see as the biggest threat to cultural resources? 
