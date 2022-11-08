@@ -1,4 +1,9 @@
-
+---
+title: "Analysis of coastal heritage survey data from the People of the Guana Peninsula, Florida"
+date: now
+execute: 
+  warning: false
+---
 
 ```{r}
 library(tidyverse)
@@ -13,6 +18,125 @@ survey_data_q <-
   slice(-1)
 
 ```
+
+## Demographics
+
+
+Age Range
+
+```{r}
+survey_data_q  %>%
+  select(starts_with("Age Range")) %>%
+  pivot_longer(everything()) %>%
+  mutate(name = str_remove_all(name, "Age Range")) %>% 
+  # should I drop NA's here?
+  # drop_na() %>% 
+mutate(value = str_squish(value)) %>% 
+ mutate(value = fct_relevel(value,
+                            c("18 - 29",
+                              "30 - 39",
+                              "40 - 49",
+                              "50 - 59",
+                              "60 - 69",
+                              "70 - 79",
+                              "80 or older"))) %>%
+   group_by(name, value) %>% 
+  summarise(n = n()) %>% 
+  # plot
+  ggplot() +
+    aes(value, n) +
+    geom_col() +
+    coord_flip() +
+    facet_wrap( ~ name)
+```
+
+
+
+Ethnicity
+
+```{r}
+survey_data_q %>% 
+  select(starts_with("Ethinicity - Selected Choice")) %>%
+  pivot_longer(everything()) %>% 
+  mutate(name = str_remove_all(name, "Ethnicity - Selected Choice")) %>% 
+  drop_na() %>% 
+  mutate(value = str_squish(value)) %>% 
+ mutate(value = fct_relevel(value,
+                            c("Caucasian (non-Hispanic)",
+                              "African-American",
+                              "Asian/Pacific Islander",
+                              "Multi-racial",
+                              "Prefer to self-identify as",
+                              "Prefer not to answer"))) %>%
+  group_by(name, value) %>% 
+  summarise(n = n()) %>% 
+  # plot
+  ggplot() +
+    aes(value, n) +
+    geom_col() +
+    coord_flip() +
+    facet_wrap( ~ name)
+  
+```
+
+
+
+Gender Identity
+
+
+```{r}
+survey_data_q %>% 
+  select(starts_with("Gender Identity - Selected Choice")) %>%
+  pivot_longer(everything()) %>% 
+  mutate(name = str_remove_all(name, "Gender Identity - Selected Choice")) %>% 
+  drop_na() %>% 
+  mutate(value = str_squish(value)) %>% 
+ mutate(value = fct_relevel(value,
+                            c("Female",
+                              "Male",
+                              "Prefer not to say"))) %>%
+  group_by(name, value) %>% 
+  summarise(n = n()) %>% 
+  # plot
+  ggplot() +
+    aes(value, n) +
+    geom_col() +
+    coord_flip() +
+    facet_wrap( ~ name)
+```
+
+
+(Gender Identity - Prefer to self-identify as: - Text)
+
+
+highest degree or level of schooling 
+
+```{r}
+survey_data_q %>% 
+  select(starts_with("Please select the highest degree or level of schooling you have completed")) %>%
+  pivot_longer(everything()) %>% 
+  mutate(name = str_remove_all(name, "Please select the highest degree or level of schooling you have completed")) %>% 
+  drop_na() %>% 
+  mutate(value = str_squish(value)) %>% 
+ mutate(value = fct_relevel(value,
+                            c("Master's degree",
+                              "Bachelor's degee",
+                              "Doctorate degree",
+                              "Trade/technical/vocational training",
+                              "Some college credit, no degree",
+                              "Prefer not to answer"))) %>%
+  group_by(name, value) %>% 
+  summarise(n = n()) %>% 
+  # plot
+  ggplot() +
+    aes(value, n) +
+    geom_col() +
+    coord_flip() +
+    facet_wrap( ~ name)
+  
+```
+
+
 
 
 ```{r}
@@ -38,8 +162,6 @@ survey_data_q  %>%
                 n), n) +
     geom_col() +
   coord_flip()
-
-
 ```
 
 
@@ -131,121 +253,8 @@ survey_data_q %>%
 ```
 
 
-## Demographics
 
 
-Age Range
-
-```{r}
-survey_data_q  %>%
-  select(starts_with("Age Range")) %>%
-  pivot_longer(everything()) %>%
-  mutate(name = str_remove_all(name, "Age Range")) %>% 
-  # should I drop NA's here?
-  drop_na() %>% 
-mutate(value = str_squish(value)) %>% 
- mutate(value = fct_relevel(value,
-                            c("18 - 29",
-                              "30 - 39",
-                              "40 - 49",
-                              "50 - 59",
-                              "60 - 69",
-                              "70 - 79",
-                              "80 or older"))) %>%
-   group_by(name, value) %>% 
-  summarise(n = n()) %>% 
-  # plot
-  ggplot() +
-    aes(value, n) +
-    geom_col() +
-    coord_flip() +
-    facet_wrap( ~ name)
-```
-
-
-
-Ethnicity
-```{r}
-survey_data_q %>% 
-  select(starts_with("Ethinicity - Selected Choice")) %>%
-  pivot_longer(everything()) %>% 
-  mutate(name = str_remove_all(name, "Ethnicity - Selected Choice")) %>% 
-  drop_na() %>% 
-  mutate(value = str_squish(value)) %>% 
- mutate(value = fct_relevel(value,
-                            c("Caucasian (non-Hispanic)",
-                              "African-American",
-                              "Asian/Pacific Islander",
-                              "Multi-racial",
-                              "Prefer to self-identify as",
-                              "Prefer not to answer"))) %>%
-  group_by(name, value) %>% 
-  summarise(n = n()) %>% 
-  # plot
-  ggplot() +
-    aes(value, n) +
-    geom_col() +
-    coord_flip() +
-    facet_wrap( ~ name)
-  
-```
-
-
-
-Gender Identity
-
-
-```{r}
-survey_data_q %>% 
-  select(starts_with("Gender Identity - Selected Choice")) %>%
-  pivot_longer(everything()) %>% 
-  mutate(name = str_remove_all(name, "Gender Identity - Selected Choice")) %>% 
-  drop_na() %>% 
-  mutate(value = str_squish(value)) %>% 
- mutate(value = fct_relevel(value,
-                            c("Female",
-                              "Male",
-                              "Prefer not to say"))) %>%
-  group_by(name, value) %>% 
-  summarise(n = n()) %>% 
-  # plot
-  ggplot() +
-    aes(value, n) +
-    geom_col() +
-    coord_flip() +
-    facet_wrap( ~ name)
-```
-
-
-(Gender Identity - Prefer to self-identify as: - Text)
-
-
-highest degree or level of schooling 
-
-```{r}
-survey_data_q %>% 
-  select(starts_with("Please select the highest degree or level of schooling you have completed")) %>%
-  pivot_longer(everything()) %>% 
-  mutate(name = str_remove_all(name, "Please select the highest degree or level of schooling you have completed")) %>% 
-  drop_na() %>% 
-  mutate(value = str_squish(value)) %>% 
- mutate(value = fct_relevel(value,
-                            c("Master's degree",
-                              "Bachelor's degee",
-                              "Doctorate degree",
-                              "Trade/technical/vocational training",
-                              "Some college credit, no degree",
-                              "Prefer not to answer"))) %>%
-  group_by(name, value) %>% 
-  summarise(n = n()) %>% 
-  # plot
-  ggplot() +
-    aes(value, n) +
-    geom_col() +
-    coord_flip() +
-    facet_wrap( ~ name)
-  
-```
 ```{r}
 # Q7. Have you noticed or experienced any of the following effects from climate change while visiting the Reserve?
 # There is definitely a better and more legible way to do this. I want to reorder the axes and see if that helps, but I'm sure there's a faster way to pull.
@@ -253,7 +262,7 @@ survey_data_q %>%
 survey_data_q  %>%
   select(starts_with("Have you noticed or experienced any of the following effects from climate change while visiting the Reserve?")) %>% 
   pivot_longer(everything()) %>% 
-  mutate(name = str_remove_all(name, "Have you noticed or experienced any of the following effects from climate change while visiting the Reserve? - ")) %>% 
+  mutate(name = str_remove_all(name, "Have you noticed or experienced any of the following effects from climate change while visiting the Reserve\\? - ")) %>% 
   drop_na() %>% 
 mutate(value = str_squish(value)) %>% 
  mutate(value = fct_relevel(value,
@@ -298,6 +307,53 @@ survey_data_q  %>%
 
 ```
  
+
+How about age and activity?
+
+```{r}
+survey_data_q %>% 
+  select(starts_with("Age Range"),
+         kind_of_activities = `When you visit the GTM Research Reserve, what kind of activities do you engage in? Check all that apply. - Selected Choice`) %>% 
+  separate_rows(kind_of_activities, sep = ",") %>% 
+  ggplot() +
+  aes(`Age Range` ) +
+  geom_bar() +
+  facet_wrap( ~ kind_of_activities) +
+  theme(axis.text.x  = element_text(size = 3))
+```
+
+Age by awareness of cultural resources
+
+```{r}
+survey_data_q %>% 
+  select(starts_with("Age Range"),
+         starts_with("How familiar are you with these types of cultural resources?")) %>% 
+ pivot_longer(-`Age Range`) %>% 
+  # remove some of the text that is reptitive here
+  mutate(name = str_remove_all(name, "How familiar are you with these types of cultural resources\\? - ")) %>% 
+  # omit NA
+  drop_na() %>% 
+  # omit spaces at the start and end of the text
+  mutate(value = str_squish(value)) %>% 
+  # order a factor so that the plot has logically ordered bars
+ mutate(value = fct_relevel(value,
+                            c("Extremely familiar",
+                              "Very familiar",
+                              "Slightly familiar",
+                              "Moderately familiar",
+                              "Not familiar at all"))) %>%
+  mutate(simple_familarity = ifelse(value %in% c("Extremely familiar", "Very familiar"), "familiar", "unfamiliar")) %>% 
+  # tally up
+  group_by(`Age Range`, name, simple_familarity) %>% 
+  summarise(n = n()) %>% 
+  filter(simple_familarity == "familiar") %>% 
+  ggplot() +
+  aes(`Age Range`,
+      n) +
+  geom_col(position="dodge") +
+  facet_wrap( ~ name) +
+  theme(axis.text.x  = element_text(size = 3))
+```
 
 
 
