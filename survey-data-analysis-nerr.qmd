@@ -19,123 +19,6 @@ survey_data_q <-
 
 ```
 
-
-```{r}
-# Q1: Have you visited the GTM Research Reserve?
-survey_data_q  %>%
-  select(`Have you visited the GTM Research Reserve?`) %>%
-  ggplot() +
-    aes(`Have you visited the GTM Research Reserve?`) +
-    geom_bar()
-```
-
-
-```{r}
-# Q2: When you come to the Guana Tolomato Matanzas (GTM) Research Reserve, what kind of activities do you engage in?
-survey_data_q  %>%
-  select(kind_of_activities = `When you visit the GTM Research Reserve, what kind of activities do you engage in? Check all that apply. - Selected Choice`) %>%
-  separate_rows(kind_of_activities, sep = ",") %>% 
-  group_by(kind_of_activities) %>% 
-  summarise(n = n()) %>% 
-  drop_na() %>% 
-  ggplot() +
-    aes(reorder(kind_of_activities, 
-                n), n) +
-    geom_col() +
-  coord_flip()
-
-
-```
-
-
-```{r}
-# Q3: Have you heard of these cultures that used this area through time?
-
-survey_data_q  %>%
-  # select the columns relevant to this question
-  select(starts_with("Have you heard of these cultures that used this area through time?")) %>%
-  pivot_longer(everything()) %>% 
-  # remove some of the text that is reptitive here
-  mutate(name = str_remove_all(name, "Have you heard of these cultures that used this area through time\\? Please select the option that best describes your relationship with these cultures\\. - ")) %>% 
-  # omit NA
-  drop_na() %>% 
-  # omit spaces at the start and end of the text
-  mutate(value = str_squish(value)) %>% 
-  # order a factor so that the plot has logically ordered bars
-  mutate(value = fct_relevel(value, 
-                             c("I identify as a descendant of this culture.",
-                               "I am familiar with this culture.",
-                               "I have heard of this culture.",
-                               "I have never heard of this culture."))) %>% 
-  # tally up
-  group_by(name, value) %>% 
-  summarise(n = n()) %>% 
-  # plot
-  ggplot() +
-    aes(value, n) +
-    geom_col() +
-    coord_flip() +
-    facet_wrap( ~ name)
-```
-
-
-
-```{r}
-# Q4: How familiar are you with these types of cultural resources?
-
-survey_data_q  %>%
-  # select the columns relevant to this question
-  select(starts_with("How familiar are you with these types of cultural resources?")) %>%
-  pivot_longer(everything()) %>% 
-  # remove some of the text that is reptitive here
-  mutate(name = str_remove_all(name, "How familiar are you with these types of cultural resources\\? - ")) %>% 
-  # omit NA
-  drop_na() %>% 
-  # omit spaces at the start and end of the text
-  mutate(value = str_squish(value)) %>% 
-  # order a factor so that the plot has logically ordered bars
- mutate(value = fct_relevel(value,
-                            c("Extremely familiar",
-                              "Very familiar",
-                              "Slightly familiar",
-                              "Moderately familiar",
-                              "Not familiar at all"))) %>%
-  # tally up
-  group_by(name, value) %>% 
-  summarise(n = n()) %>% 
-  # plot
-  ggplot() +
-    aes(value, n) +
-    geom_col() +
-    coord_flip() +
-    facet_wrap( ~ name)
-```
-
-```{r}
-# Q5: Have you encountered any of these cultural resources while at the GTM Research Reserve? 
-
-survey_data_q %>% 
-  select(starts_with("Have you encountered any of these cultural resources while at the GTM Research Reserve?")) %>%
-  pivot_longer(everything()) %>% 
-  mutate(name = str_remove_all(name, "Have you encountered any of these cultural resources while at the GTM Research Reserve\\? - ")) %>% 
-  drop_na() %>% 
-  mutate(value = str_squish(value)) %>% 
- mutate(value = fct_relevel(value,
-                            c("Never Encountered",
-                              "Rarely Encountered",
-                              "Frequently Encountered",
-                              "Unsure"))) %>%
-  group_by(name, value) %>% 
-  summarise(n = n()) %>% 
-  # plot
-  ggplot() +
-    aes(value, n) +
-    geom_col() +
-    coord_flip() +
-    facet_wrap( ~ name)
-```
-
-
 ## Demographics
 
 
@@ -252,13 +135,133 @@ survey_data_q %>%
     facet_wrap( ~ name)
   
 ```
+
+
+
+
+```{r}
+# Q1: Have you visited the GTM Research Reserve?
+survey_data_q  %>%
+  select(`Have you visited the GTM Research Reserve?`) %>%
+  ggplot() +
+    aes(`Have you visited the GTM Research Reserve?`) +
+    geom_bar()
+```
+
+
+```{r}
+# Q2: When you come to the Guana Tolomato Matanzas (GTM) Research Reserve, what kind of activities do you engage in?
+survey_data_q  %>%
+  select(kind_of_activities = `When you visit the GTM Research Reserve, what kind of activities do you engage in? Check all that apply. - Selected Choice`) %>%
+  separate_rows(kind_of_activities, sep = ",") %>% 
+  group_by(kind_of_activities) %>% 
+  summarise(n = n()) %>% 
+  drop_na() %>% 
+  ggplot() +
+    aes(reorder(kind_of_activities, 
+                n), n) +
+    geom_col() +
+  coord_flip()
+```
+
+
+```{r}
+# Q3: Have you heard of these cultures that used this area through time?
+
+survey_data_q  %>%
+  # select the columns relevant to this question
+  select(starts_with("Have you heard of these cultures that used this area through time?")) %>%
+  pivot_longer(everything()) %>% 
+  # remove some of the text that is reptitive here
+  mutate(name = str_remove_all(name, "Have you heard of these cultures that used this area through time\\? Please select the option that best describes your relationship with these cultures\\. - ")) %>% 
+  # omit NA
+  drop_na() %>% 
+  # omit spaces at the start and end of the text
+  mutate(value = str_squish(value)) %>% 
+  # order a factor so that the plot has logically ordered bars
+  mutate(value = fct_relevel(value, 
+                             c("I identify as a descendant of this culture.",
+                               "I am familiar with this culture.",
+                               "I have heard of this culture.",
+                               "I have never heard of this culture."))) %>% 
+  # tally up
+  group_by(name, value) %>% 
+  summarise(n = n()) %>% 
+  # plot
+  ggplot() +
+    aes(value, n) +
+    geom_col() +
+    coord_flip() +
+    facet_wrap( ~ name)
+```
+
+
+
+```{r}
+# Q4: How familiar are you with these types of cultural resources?
+
+survey_data_q  %>%
+  # select the columns relevant to this question
+  select(starts_with("How familiar are you with these types of cultural resources?")) %>%
+  pivot_longer(everything()) %>% 
+  # remove some of the text that is reptitive here
+  mutate(name = str_remove_all(name, "How familiar are you with these types of cultural resources\\? - ")) %>% 
+  # omit NA
+  drop_na() %>% 
+  # omit spaces at the start and end of the text
+  mutate(value = str_squish(value)) %>% 
+  # order a factor so that the plot has logically ordered bars
+ mutate(value = fct_relevel(value,
+                            c("Extremely familiar",
+                              "Very familiar",
+                              "Slightly familiar",
+                              "Moderately familiar",
+                              "Not familiar at all"))) %>%
+  # tally up
+  group_by(name, value) %>% 
+  summarise(n = n()) %>% 
+  # plot
+  ggplot() +
+    aes(value, n) +
+    geom_col() +
+    coord_flip() +
+    facet_wrap( ~ name)
+```
+
+```{r}
+# Q5: Have you encountered any of these cultural resources while at the GTM Research Reserve? 
+
+survey_data_q %>% 
+  select(starts_with("Have you encountered any of these cultural resources while at the GTM Research Reserve?")) %>%
+  pivot_longer(everything()) %>% 
+  mutate(name = str_remove_all(name, "Have you encountered any of these cultural resources while at the GTM Research Reserve\\? - ")) %>% 
+  drop_na() %>% 
+  mutate(value = str_squish(value)) %>% 
+ mutate(value = fct_relevel(value,
+                            c("Never Encountered",
+                              "Rarely Encountered",
+                              "Frequently Encountered",
+                              "Unsure"))) %>%
+  group_by(name, value) %>% 
+  summarise(n = n()) %>% 
+  # plot
+  ggplot() +
+    aes(value, n) +
+    geom_col() +
+    coord_flip() +
+    facet_wrap( ~ name)
+```
+
+
+
+
 ```{r}
 # Q7. Have you noticed or experienced any of the following effects from climate change while visiting the Reserve?
 
 survey_data_q  %>%
   select(starts_with("Have you noticed or experienced any of the following effects from climate change while visiting the Reserve?")) %>% 
   pivot_longer(everything()) %>% 
-  mutate(name = str_remove_all(name, "Have you noticed or experienced any of the following effects from climate change while visiting the Reserve? - ")) %>% 
+  mutate(name = str_remove_all(name, "Have you noticed or experienced any of the following effects from climate change while visiting the Reserve\\? - ")) %>% 
   drop_na() %>% 
 mutate(value = str_squish(value)) %>% 
  mutate(value = fct_relevel(value,
@@ -270,7 +273,7 @@ mutate(value = str_squish(value)) %>%
                               "Increased Temperatures",
                               
                               "Changes in Seasonality",
-                              "Species Shifts/Extinctions")))%>%
+                              "Species Shifts/Extinctions"))) %>%
   group_by(name, value) %>% 
   summarise(n = n()) %>% 
   ggplot() +
@@ -302,6 +305,53 @@ survey_data_q  %>%
 
 ```
  
+
+How about age and activity?
+
+```{r}
+survey_data_q %>% 
+  select(starts_with("Age Range"),
+         kind_of_activities = `When you visit the GTM Research Reserve, what kind of activities do you engage in? Check all that apply. - Selected Choice`) %>% 
+  separate_rows(kind_of_activities, sep = ",") %>% 
+  ggplot() +
+  aes(`Age Range` ) +
+  geom_bar() +
+  facet_wrap( ~ kind_of_activities) +
+  theme(axis.text.x  = element_text(size = 3))
+```
+
+Age by awareness of cultural resources
+
+```{r}
+survey_data_q %>% 
+  select(starts_with("Age Range"),
+         starts_with("How familiar are you with these types of cultural resources?")) %>% 
+ pivot_longer(-`Age Range`) %>% 
+  # remove some of the text that is reptitive here
+  mutate(name = str_remove_all(name, "How familiar are you with these types of cultural resources\\? - ")) %>% 
+  # omit NA
+  drop_na() %>% 
+  # omit spaces at the start and end of the text
+  mutate(value = str_squish(value)) %>% 
+  # order a factor so that the plot has logically ordered bars
+ mutate(value = fct_relevel(value,
+                            c("Extremely familiar",
+                              "Very familiar",
+                              "Slightly familiar",
+                              "Moderately familiar",
+                              "Not familiar at all"))) %>%
+  mutate(simple_familarity = ifelse(value %in% c("Extremely familiar", "Very familiar"), "familiar", "unfamiliar")) %>% 
+  # tally up
+  group_by(`Age Range`, name, simple_familarity) %>% 
+  summarise(n = n()) %>% 
+  filter(simple_familarity == "familiar") %>% 
+  ggplot() +
+  aes(`Age Range`,
+      n) +
+  geom_col(position="dodge") +
+  facet_wrap( ~ name) +
+  theme(axis.text.x  = element_text(size = 3))
+```
 
 
 
