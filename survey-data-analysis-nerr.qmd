@@ -303,11 +303,8 @@ survey_data_q  %>%
 
 #Omitted the column containing free text (other). Is there a better way to do Q8?
 
-<<<<<<< HEAD
 ```
 =======
-```
- 
 
 How about age and activity?
 
@@ -356,7 +353,33 @@ survey_data_q %>%
   theme(axis.text.x  = element_text(size = 3))
 ```
 
+Age by cultures encountered
 
+```{r}
+survey_data_q %>% 
+  select(starts_with("Age Range"),
+         starts_with("Have you encountered any of these cultural resources while at the GTM Research Reserve?")) %>% 
+ pivot_longer(-`Age Range`) %>% 
+  mutate(name = str_remove_all(name, "Have you encountered any of these cultural resources while at the GTM Research Reserve\\? - ")) %>% 
+  drop_na() %>% 
+  # omit spaces at the start and end of the text
+  mutate(value = str_squish(value)) %>% 
+  # order a factor so that the plot has logically ordered bars
+ mutate(value = fct_relevel(value,
+                            c("Frequently Encountered",
+                              "Rarely Encountered",
+                              "Never Encountered",
+                              "Unsure"))) %>%
+  mutate(simple_encounter = ifelse(value %in% c("Frequently Encountered", "Rarely Encountered"), "encountered", "not encountered")) %>% 
+  group_by(`Age Range`, name, simple_encounter) %>% 
+  summarise(n = n()) %>% 
+  filter(simple_encounter == "encountered") %>% 
+  ggplot() +
+  aes(`Age Range`,
+      n) +
+  geom_col(position="dodge") +
+  facet_wrap( ~ name) +
+  theme(axis.text.x  = element_text(size = 3))
+  
+```
 
-
->>>>>>> 10f850ee978a83ff1bba1311dba7e670d96f4669
