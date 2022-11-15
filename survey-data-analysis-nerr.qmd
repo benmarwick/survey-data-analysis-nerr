@@ -25,8 +25,6 @@ survey_data_q <-
 Age Range
 
 ```{r}
-#| label: fig-age-plot
-
 
 survey_data_q  %>%
   select(starts_with("Age Range")) %>%
@@ -58,7 +56,6 @@ mutate(value = str_squish(value)) %>%
 Ethnicity
 
 ```{r}
-#| label: fig-eth-plot
 
 survey_data_q %>% 
   select(starts_with("Ethinicity - Selected Choice")) %>%
@@ -90,8 +87,6 @@ Gender Identity
 
 
 ```{r}
-#| label: fig-gen-plot
-
 
 survey_data_q %>% 
   select(starts_with("Gender Identity - Selected Choice")) %>%
@@ -120,7 +115,6 @@ survey_data_q %>%
 highest degree or level of schooling 
 
 ```{r}
-#| label: fig-edu-plot
 
 survey_data_q %>% 
   select(starts_with("Please select the highest degree or level of schooling you have completed")) %>%
