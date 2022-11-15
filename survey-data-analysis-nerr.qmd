@@ -316,7 +316,7 @@ survey_data_q %>%
          kind_of_activities = `When you visit the GTM Research Reserve, what kind of activities do you engage in? Check all that apply. - Selected Choice`) %>% 
   separate_rows(kind_of_activities, sep = ",") %>% 
   ggplot() +
-  aes(`Age Range` ) +
+  aes(`Age Range`) +
   geom_bar() +
   facet_wrap( ~ kind_of_activities) +
   theme(axis.text.x  = element_text(size = 3))
@@ -383,5 +383,31 @@ survey_data_q %>%
   facet_wrap( ~ name) +
   theme(axis.text.x  = element_text(size = 3))
   
+```
+
+Activity and Level of Education
+```{r}
+survey_data_q %>% 
+  select(starts_with("Please select the highest degree or level of schooling you have completed")) %>%
+  pivot_longer(everything()) %>% 
+  mutate(name = str_remove_all(name, "Please select the highest degree or level of schooling you have completed")) %>% 
+  drop_na() %>% 
+  mutate(value = str_squish(value)) %>% 
+ mutate(value = fct_relevel(value,
+                            c("Master's degree",
+                              "Bachelor's degee",
+                              "Doctorate degree",
+                              "Trade/technical/vocational training",
+                              "Some college credit, no degree",
+                              "Prefer not to answer"))) %>%
+  group_by(name, value) %>% 
+  summarise(n = n()) %>% 
+  separate_rows(kind_of_activities, sep = ",") %>% 
+  ggplot() +
+  aes(kind_of_activities, name) +
+  geom_bar() +
+  facet_wrap( ~ kind_of_activities) +
+  theme(axis.text.x  = element_text(size = 3))
+
 ```
 
