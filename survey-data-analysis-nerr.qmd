@@ -305,6 +305,9 @@ survey_data_q  %>%
 
 #Omitted the column containing free text (other). Is there a better way to do Q8?
 
+<<<<<<< HEAD
+```
+=======
 ```
  
 
@@ -358,3 +361,4 @@ survey_data_q %>%
 
 
 
+>>>>>>> 10f850ee978a83ff1bba1311dba7e670d96f4669
