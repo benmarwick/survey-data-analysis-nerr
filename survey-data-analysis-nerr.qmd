@@ -51,6 +51,7 @@ mutate(value = str_squish(value)) %>%
     facet_wrap( ~ name)
 # can we make the n value be in integers instead of decimals?
 ```
+
 Ten respondents fall into the 60-69, which is the most populous age range. Around eight respondents did not select their age range/choose to answer. Ages 18-29 and 30-19 have seven respondents each. Five respondents were between 70-79. 50-59 had six respondents while 40-49 had four. Only one respondent selected 80 or older.
 
 
@@ -139,6 +140,40 @@ survey_data_q %>%
   
 ```
 
+
+Zip code
+
+```{r}
+library(zipcodeR)
+survey_data_q_zip <- 
+survey_data_q %>% 
+  select(`Zip Code`) %>% 
+  drop_na() %>% 
+  group_by(`Zip Code`) %>% 
+  tally(sort = TRUE) %>% 
+  mutate(zp = str_sub(`Zip Code`, 1, 5)) %>% 
+  mutate(z_data = map(zp, ~reverse_zipcode(.x))) %>% 
+  unnest(z_data) 
+
+zip_2_digits <- 
+  as.numeric(unique(str_sub(survey_data_q_zip$zipcode, 1, 2)))
+
+library(sf)
+library(tigris)
+options(tigris_use_cache = TRUE)
+
+# polygons from zctas
+poly_zctas <- 
+  zctas(cb = TRUE, 
+        starts_with = zip_2_digits) %>%
+  left_join(survey_data_q_zip, by = c("ZCTA5CE20" = "zp"))
+
+ggplot() +
+  geom_sf(data = poly_zctas, 
+          aes(fill = n),
+          color = NA) 
+
+```
 
 
 
