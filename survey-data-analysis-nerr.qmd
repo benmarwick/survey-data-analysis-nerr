@@ -51,13 +51,12 @@ mutate(value = str_squish(value)) %>%
     coord_flip() +
     facet_wrap( ~ name)
 # can we make the n value be in integers instead of decimals?
-<<<<<<< HEAD
 ```
 
 Ten respondents fall into the 60-69, which is the most populous age range. Around eight respondents did not select their age range/choose to answer. Ages 18-29 and 30-19 have seven respondents each. Five respondents were between 70-79. 50-59 had six respondents while 40-49 had four. Only one respondent selected 80 or older.
-=======
+
 # should we say how many people filled out the survey?
->>>>>>> a53449d899e7465f635f0e3e5b8c858c0d11b083
+
 
 ```
 
@@ -145,7 +144,6 @@ survey_data_q %>%
   
 ```
 
-<<<<<<< HEAD
 
 Zip code
 
@@ -183,8 +181,6 @@ ggplot() +
 
 
 
-=======
->>>>>>> a53449d899e7465f635f0e3e5b8c858c0d11b083
 ```{r}
 # Q1: Have you visited the GTM Research Reserve?
 survey_data_q  %>%
@@ -345,8 +341,6 @@ survey_data_q  %>%
 #Omitted the column containing free text (other). Is there a better way to do Q8?
 
 ```
-
-=======
 
 How about age and activity?
 
