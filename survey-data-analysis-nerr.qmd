@@ -636,8 +636,8 @@ survey_data_q %>%
   summarise(n = n()) %>% 
   ggplot() +
   aes(`Age Range`,
-      n) +
-  geom_col(position="dodge") +
+      value) +
+  geom_point(position="dodge") +
   facet_wrap( ~ name) +
   theme(axis.text.x  = element_text(size = 3))
 ```
