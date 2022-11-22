@@ -463,3 +463,257 @@ survey_data_q %>%
 
 ```
 
+Awareness of cultural resources by ethnicity
+
+```{r}
+survey_data_q %>% 
+  select(Ethinicity = starts_with("Ethinicity - Selected Choice"),
+         starts_with("How familiar are you with these types of cultural resources?")) %>% 
+ pivot_longer(-`Ethinicity`) %>% 
+  mutate(name = str_remove_all(name, "How familiar are you with these types of cultural resources\\? - ")) %>% 
+  drop_na() %>% 
+  # omit spaces at the start and end of the text
+  mutate(value = str_squish(value)) %>% 
+  # order a factor so that the plot has logically ordered bars
+ mutate(value = fct_relevel(value,
+                            c("Extremely familiar",
+                              "Very familiar",
+                              "Moderately familiar",
+                              "Slightly familiar",
+                              "Not familiar at all"))) %>%
+  mutate(simple_familiarity = ifelse(value %in% c("Extremely familiar", "Very familiar"), "familiar", "not familiar")) %>% 
+  group_by(`Ethinicity`, name, simple_familiarity) %>% 
+  summarise(n = n()) %>% 
+  filter(simple_familiarity == "familiar") %>% 
+  ggplot() +
+  aes(`Ethinicity`,
+      n) +
+  geom_col(position="dodge") +
+  facet_wrap( ~ name) +
+  theme(axis.text.x  = element_text(size = 3))
+```
+
+Awareness of cultural resources by gender 
+
+```{r}
+survey_data_q %>% 
+  select(Gender = starts_with("Gender Identity - Selected Choice"),
+         starts_with("How familiar are you with these types of cultural resources?")) %>% 
+ pivot_longer(-`Gender`) %>% 
+  mutate(name = str_remove_all(name, "How familiar are you with these types of cultural resources\\? - ")) %>% 
+  drop_na() %>% 
+  # omit spaces at the start and end of the text
+  mutate(value = str_squish(value)) %>% 
+  # order a factor so that the plot has logically ordered bars
+ mutate(value = fct_relevel(value,
+                            c("Extremely familiar",
+                              "Very familiar",
+                              "Moderately familiar",
+                              "Slightly familiar",
+                              "Not familiar at all"))) %>%
+  mutate(simple_familiarity = ifelse(value %in% c("Extremely familiar", "Very familiar"), "familiar", "not familiar")) %>% 
+  group_by(`Gender`, name, simple_familiarity) %>% 
+  summarise(n = n()) %>% 
+  filter(simple_familiarity == "familiar") %>% 
+  ggplot() +
+  aes(`Gender`,
+      n) +
+  geom_col(position="dodge") +
+  facet_wrap( ~ name) +
+  theme(axis.text.x  = element_text(size = 3))
+```
+
+Cultures encountered by ethinicity 
+
+```{r}
+survey_data_q %>% 
+  select(Ethinicity = starts_with("Ethinicity - Selected Choice"),
+         starts_with("Have you encountered any of these cultural resources while at the GTM Research Reserve?")) %>% 
+ pivot_longer(-`Ethinicity`) %>% 
+  mutate(name = str_remove_all(name, "Have you encountered any of these cultural resources while at the GTM Research Reserve\\? - ")) %>% 
+  drop_na() %>% 
+  # omit spaces at the start and end of the text
+  mutate(value = str_squish(value)) %>% 
+  # order a factor so that the plot has logically ordered bars
+ mutate(value = fct_relevel(value,
+                            c("Frequently Encountered",
+                              "Rarely Encountered",
+                              "Never Encountered",
+                              "Unsure"))) %>%
+  mutate(simple_encounter = ifelse(value %in% c("Frequently Encountered", "Rarely Encountered"), "encountered", "not encountered")) %>% 
+  group_by(`Ethinicity`, name, simple_encounter) %>% 
+  summarise(n = n()) %>% 
+  filter(simple_encounter == "encountered") %>% 
+  ggplot() +
+  aes(`Ethinicity`,
+      n) +
+  geom_col(position="dodge") +
+  facet_wrap( ~ name) +
+  theme(axis.text.x  = element_text(size = 3))
+```
+
+Cultures encountered by Gender 
+
+```{r}
+survey_data_q %>% 
+  select(Gender = starts_with("Gender Identity - Selected Choice"),
+         starts_with("Have you encountered any of these cultural resources while at the GTM Research Reserve?")) %>% 
+ pivot_longer(-`Gender`) %>% 
+  mutate(name = str_remove_all(name, "Have you encountered any of these cultural resources while at the GTM Research Reserve\\? - ")) %>% 
+  drop_na() %>% 
+  # omit spaces at the start and end of the text
+  mutate(value = str_squish(value)) %>% 
+  # order a factor so that the plot has logically ordered bars
+ mutate(value = fct_relevel(value,
+                            c("Frequently Encountered",
+                              "Rarely Encountered",
+                              "Never Encountered",
+                              "Unsure"))) %>%
+  mutate(simple_encounter = ifelse(value %in% c("Frequently Encountered", "Rarely Encountered"), "encountered", "not encountered")) %>% 
+  group_by(`Gender`, name, simple_encounter) %>% 
+  summarise(n = n()) %>% 
+  filter(simple_encounter == "encountered") %>% 
+  ggplot() +
+  aes(`Gender`,
+      n) +
+  geom_col(position="dodge") +
+  facet_wrap( ~ name) +
+  theme(axis.text.x  = element_text(size = 3))
+```
+
+Biggest threat by age 
+```{r}
+survey_data_q %>% 
+  select(starts_with("Age Range"),
+         starts_with("What do you see as the biggest threat to cultural resources?"),
+         -ends_with("Text")) %>% 
+ pivot_longer(-`Age Range`) %>% 
+  mutate(name = str_remove_all(name, "What do you see as the biggest threat to cultural resources\\? Please drag the choices to rank them with the most threatening as 1\\. - ")) %>% 
+  drop_na() %>% 
+  # omit spaces at the start and end of the text
+  mutate(value = str_squish(value)) %>% 
+  # order a factor so that the plot has logically ordered bars
+ mutate(value = fct_relevel(value,
+                            c("9",
+                              "8",
+                              "7",
+                              "6",
+                              "5",
+                              "4",
+                              "3",
+                              "2",
+                              "1"))) %>%
+  group_by(`Age Range`, name, value) %>% 
+  summarise(n = n()) %>% 
+  ggplot() +
+  aes(`Age Range`,
+      n) +
+  geom_col(position="dodge") +
+  facet_wrap( ~ name) +
+  theme(axis.text.x  = element_text(size = 3))
+```
+
+Biggest Threat by ethinicity
+```{r}
+survey_data_q %>% 
+  select(Ethinicity = starts_with("Ethinicity - Selected Choice"),
+         starts_with("What do you see as the biggest threat to cultural resources?"),
+         -ends_with("Text")) %>% 
+ pivot_longer(-`Ethinicity`) %>% 
+  mutate(name = str_remove_all(name, "What do you see as the biggest threat to cultural resources\\? Please drag the choices to rank them with the most threatening as 1\\. - ")) %>% 
+  drop_na() %>% 
+  # omit spaces at the start and end of the text
+  mutate(value = str_squish(value)) %>% 
+  # order a factor so that the plot has logically ordered bars
+ mutate(value = fct_relevel(value,
+                            c("9",
+                              "8",
+                              "7",
+                              "6",
+                              "5",
+                              "4",
+                              "3",
+                              "2",
+                              "1"))) %>%
+  group_by(`Ethinicity`, name, value) %>% 
+  summarise(n = n()) %>% 
+  ggplot() +
+  aes(`Ethinicity`,
+      value) +
+  geom_point(position="dodge") +
+  facet_wrap( ~ name) +
+  theme(axis.text.x  = element_text(size = 3))
+```
+
+Biggest Threat by Gender 
+
+```{r}
+survey_data_q %>% 
+  select(Gender = starts_with("Gender Identity - Selected Choice"),
+         starts_with("What do you see as the biggest threat to cultural resources?"),
+         -ends_with("Text")) %>% 
+ pivot_longer(-`Gender`) %>% 
+  mutate(name = str_remove_all(name, "What do you see as the biggest threat to cultural resources\\? Please drag the choices to rank them with the most threatening as 1\\. - ")) %>% 
+  drop_na() %>% 
+  # omit spaces at the start and end of the text
+  mutate(value = str_squish(value)) %>% 
+  # order a factor so that the plot has logically ordered bars
+ mutate(value = fct_relevel(value,
+                            c("9",
+                              "8",
+                              "7",
+                              "6",
+                              "5",
+                              "4",
+                              "3",
+                              "2",
+                              "1"))) %>%
+  group_by(`Gender`, name, value) %>% 
+  summarise(n = n()) %>% 
+  ggplot() +
+  aes(`Gender`,
+      value) +
+  geom_point() +
+  facet_wrap( ~ name) +
+  theme(axis.text.x  = element_text(size = 3))
+```
+
+Biggest Threat by level of education 
+
+```{r}
+survey_data_q %>% 
+  select(schooling = starts_with("Please select the highest degree or level of schooling you have completed"),
+         starts_with("What do you see as the biggest threat to cultural resources?"),
+         -ends_with("Text")) %>% 
+  pivot_longer(-`schooling`) %>% 
+  mutate(name = str_remove_all(name, "What do you see as the biggest threat to cultural resources\\? Please drag the choices to rank them with the most threatening as 1\\. - ")) %>%
+  mutate(schooling = case_when(
+    schooling == "Master’s degree" ~ "has a degree",
+    schooling == "Bachelor’s degree" ~ "has a degree",
+    schooling == "Doctorate degree" ~ "has a degree",
+    schooling == "Trade/technical/vocational training" ~ "no degree",
+    schooling == "Some college credit, no degree" ~ "no degree",
+    TRUE ~ "other"
+  )) %>%
+  drop_na() %>% 
+  mutate(value = str_squish(value)) %>% 
+ mutate(value = fct_relevel(value,
+                            c("9",
+                              "8",
+                              "7",
+                              "6",
+                              "5",
+                              "4",
+                              "3",
+                              "2",
+                              "1"))) %>%
+  group_by(`schooling`, name, value) %>% 
+  summarise(n = n()) %>% 
+  ggplot() +
+  aes(`schooling`,
+      value) +
+  geom_point() +
+  facet_wrap( ~ name) +
+  theme(axis.text.x  = element_text(size = 3))
+```
+
