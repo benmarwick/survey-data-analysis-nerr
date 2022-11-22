@@ -21,10 +21,11 @@ survey_data_q <-
 
 ## Demographics
 
-
 Age Range
 
 ```{r}
+#| label: fig-age-range
+#| fig-cap: "Age Range of Survey Respondents"
 
 survey_data_q  %>%
   select(starts_with("Age Range")) %>%
@@ -50,10 +51,17 @@ mutate(value = str_squish(value)) %>%
     coord_flip() +
     facet_wrap( ~ name)
 # can we make the n value be in integers instead of decimals?
+<<<<<<< HEAD
 ```
 
 Ten respondents fall into the 60-69, which is the most populous age range. Around eight respondents did not select their age range/choose to answer. Ages 18-29 and 30-19 have seven respondents each. Five respondents were between 70-79. 50-59 had six respondents while 40-49 had four. Only one respondent selected 80 or older.
+=======
+# should we say how many people filled out the survey?
+>>>>>>> a53449d899e7465f635f0e3e5b8c858c0d11b083
 
+```
+
+As seen in @fig-age-range, ten of the respondents who chose to state their age range are 60-69. Around eight respondents did not select their age range/choose to answer. (Ages 18-29 and 30-19 have seven respondents each. Five respondents were between 70-79. 50-59 had six respondents while 40-49 had four. Only one respondent selected 80 or older.)
 
 Ethnicity
 
@@ -83,10 +91,7 @@ survey_data_q %>%
   
 ```
 
-
-
 Gender Identity
-
 
 ```{r}
 
@@ -109,10 +114,10 @@ survey_data_q %>%
     coord_flip() +
     facet_wrap( ~ name)
 ```
+
 Most of the survey respondents self-identify as female, at around 29. Roughly 8 respondents identify as male, and a few chose not to say. No one wrote in any preferred self-identifier.
 
-
-highest degree or level of schooling 
+highest degree or level of schooling
 
 ```{r}
 
@@ -140,6 +145,7 @@ survey_data_q %>%
   
 ```
 
+<<<<<<< HEAD
 
 Zip code
 
@@ -177,6 +183,8 @@ ggplot() +
 
 
 
+=======
+>>>>>>> a53449d899e7465f635f0e3e5b8c858c0d11b083
 ```{r}
 # Q1: Have you visited the GTM Research Reserve?
 survey_data_q  %>%
@@ -185,7 +193,6 @@ survey_data_q  %>%
     aes(`Have you visited the GTM Research Reserve?`) +
     geom_bar()
 ```
-
 
 ```{r}
 # Q2: When you come to the Guana Tolomato Matanzas (GTM) Research Reserve, what kind of activities do you engage in?
@@ -201,7 +208,6 @@ survey_data_q  %>%
     geom_col() +
   coord_flip()
 ```
-
 
 ```{r}
 # Q3: Have you heard of these cultures that used this area through time?
@@ -232,8 +238,6 @@ survey_data_q  %>%
     coord_flip() +
     facet_wrap( ~ name)
 ```
-
-
 
 ```{r}
 # Q4: How familiar are you with these types of cultural resources?
@@ -290,9 +294,6 @@ survey_data_q %>%
     facet_wrap( ~ name)
 ```
 
-
-
-
 ```{r}
 # Q7. Have you noticed or experienced any of the following effects from climate change while visiting the Reserve?
 # There is definitely a better and more legible way to do this. I want to reorder the axes and see if that helps, but I'm sure there's a faster way to pull.
@@ -344,6 +345,7 @@ survey_data_q  %>%
 #Omitted the column containing free text (other). Is there a better way to do Q8?
 
 ```
+
 =======
 
 How about age and activity?
@@ -457,7 +459,6 @@ survey_data_q %>%
 
 ```
 
-
 Awareness of cultural resources by Level of Education
 
 ```{r}
@@ -529,7 +530,7 @@ survey_data_q %>%
   theme(axis.text.x  = element_text(size = 3))
 ```
 
-Awareness of cultural resources by gender 
+Awareness of cultural resources by gender
 
 ```{r}
 survey_data_q %>% 
@@ -559,7 +560,7 @@ survey_data_q %>%
   theme(axis.text.x  = element_text(size = 3))
 ```
 
-Cultures encountered by ethinicity 
+Cultures encountered by ethinicity
 
 ```{r}
 survey_data_q %>% 
@@ -588,7 +589,7 @@ survey_data_q %>%
   theme(axis.text.x  = element_text(size = 3))
 ```
 
-Cultures encountered by Gender 
+Cultures encountered by Gender
 
 ```{r}
 survey_data_q %>% 
@@ -617,7 +618,8 @@ survey_data_q %>%
   theme(axis.text.x  = element_text(size = 3))
 ```
 
-Biggest threat by age 
+Biggest threat by age
+
 ```{r}
 survey_data_q %>% 
   select(starts_with("Age Range"),
@@ -650,6 +652,7 @@ survey_data_q %>%
 ```
 
 Biggest Threat by ethinicity
+
 ```{r}
 survey_data_q %>% 
   select(Ethinicity = starts_with("Ethinicity - Selected Choice"),
@@ -681,7 +684,7 @@ survey_data_q %>%
   theme(axis.text.x  = element_text(size = 3))
 ```
 
-Biggest Threat by Gender 
+Biggest Threat by Gender
 
 ```{r}
 survey_data_q %>% 
@@ -714,7 +717,7 @@ survey_data_q %>%
   theme(axis.text.x  = element_text(size = 3))
 ```
 
-Biggest Threat by level of education 
+Biggest Threat by level of education
 
 ```{r}
 survey_data_q %>% 
@@ -752,4 +755,3 @@ survey_data_q %>%
   facet_wrap( ~ name) +
   theme(axis.text.x  = element_text(size = 3))
 ```
-
