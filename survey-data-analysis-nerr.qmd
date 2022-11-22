@@ -19,6 +19,10 @@ survey_data_q <-
 
 ```
 
+## Introduction 
+
+Dates that the survey was available... State here how many people filled out the survey
+
 ## Demographics
 
 Age Range
@@ -27,6 +31,7 @@ Age Range
 #| label: fig-age-range
 #| fig-cap: "Age Range of Survey Respondents"
 
+survey_data_q_age <- 
 survey_data_q  %>%
   select(starts_with("Age Range")) %>%
   pivot_longer(everything()) %>%
@@ -43,26 +48,25 @@ mutate(value = str_squish(value)) %>%
                               "70 - 79",
                               "80 or older"))) %>%
    group_by(name, value) %>% 
-  summarise(n = n()) %>% 
+  summarise(n = n()) 
+
   # plot
-  ggplot() +
+  ggplot(survey_data_q_age) +
     aes(value, n) +
     geom_col() +
     coord_flip() +
-    facet_wrap( ~ name)
-# can we make the n value be in integers instead of decimals?
+    facet_wrap( ~ name) +
+    # make the n value be in integers instead of decimals?
+    scale_y_continuous(breaks= scales::pretty_breaks())
 ```
 
 Ten respondents fall into the 60-69, which is the most populous age range. Around eight respondents did not select their age range/choose to answer. Ages 18-29 and 30-19 have seven respondents each. Five respondents were between 70-79. 50-59 had six respondents while 40-49 had four. Only one respondent selected 80 or older.
 
-# should we say how many people filled out the survey?
-
-As seen in @fig-age-range, ten of the respondents who chose to state their age range are 60-69. Around eight respondents did not select their age range/choose to answer. (Ages 18-29 and 30-19 have seven respondents each. Five respondents were between 70-79. 50-59 had six respondents while 40-49 had four. Only one respondent selected 80 or older.)
+As seen in @fig-age-range, ten of the respondents who chose to state their age range are 60-69. Around eight respondents did not select their age range/choose to answer. Ages 18-29 and 30-19 have seven respondents each. Five respondents were between 70-79. 50-59 had six respondents while 40-49 had four. Only one respondent selected 80 or older.
 
 Ethnicity
 
 ```{r}
-
 survey_data_q %>% 
   select(starts_with("Ethinicity - Selected Choice")) %>%
   pivot_longer(everything()) %>% 
@@ -84,13 +88,12 @@ survey_data_q %>%
     geom_col() +
     coord_flip() +
     facet_wrap( ~ name)
-  
 ```
 
 Gender Identity
 
 ```{r}
-
+survey_data_q_gender <- 
 survey_data_q %>% 
   select(starts_with("Gender Identity - Selected Choice")) %>%
   pivot_longer(everything()) %>% 
@@ -102,16 +105,21 @@ survey_data_q %>%
                               "Male",
                               "Prefer not to say"))) %>%
   group_by(name, value) %>% 
-  summarise(n = n()) %>% 
+  summarise(n = n())  
+
   # plot
-  ggplot() +
+  ggplot(survey_data_q_gender) +
     aes(value, n) +
     geom_col() +
     coord_flip() +
     facet_wrap( ~ name)
+  
+n_female <- survey_data_q_gender %>% 
+  filter(value == "Female") %>% 
+  pull(n)
 ```
 
-Most of the survey respondents self-identify as female, at around 29. Roughly 8 respondents identify as male, and a few chose not to say. No one wrote in any preferred self-identifier.
+Most of the survey respondents self-identify as female, at `r `n_female`. Roughly 8 respondents identify as male, and a few chose not to say. No one wrote in any preferred self-identifier.
 
 highest degree or level of schooling
 
@@ -342,15 +350,21 @@ survey_data_q  %>%
 How about age and activity?
 
 ```{r}
+survey_data_q_activity_age <- 
 survey_data_q %>% 
   select(starts_with("Age Range"),
          kind_of_activities = `When you visit the GTM Research Reserve, what kind of activities do you engage in? Check all that apply. - Selected Choice`) %>% 
   separate_rows(kind_of_activities, sep = ",") %>% 
-  ggplot() +
-  aes(`Age Range`) +
-  geom_bar() +
-  facet_wrap( ~ kind_of_activities) +
-  theme(axis.text.x  = element_text(size = 3))
+  group_by(`Age Range`, kind_of_activities  ) %>% 
+  tally() 
+
+  ggplot(survey_data_q_activity_age) +
+  aes(x = kind_of_activities,
+      y = n,
+      fill = `Age Range`) +
+   geom_bar(position="fill", stat="identity") +
+  theme(axis.text.x  = element_text(size = 3)) +
+coord_flip()
 ```
 
 Age by awareness of cultural resources
@@ -524,6 +538,7 @@ survey_data_q %>%
 Awareness of cultural resources by gender
 
 ```{r}
+survey_data_q_awareness_gender <- 
 survey_data_q %>% 
   select(Gender = starts_with("Gender Identity - Selected Choice"),
          starts_with("How familiar are you with these types of cultural resources?")) %>% 
@@ -542,13 +557,22 @@ survey_data_q %>%
   mutate(simple_familiarity = ifelse(value %in% c("Extremely familiar", "Very familiar"), "familiar", "not familiar")) %>% 
   group_by(`Gender`, name, simple_familiarity) %>% 
   summarise(n = n()) %>% 
-  filter(simple_familiarity == "familiar") %>% 
-  ggplot() +
+  filter(simple_familiarity == "familiar") 
+
+  ggplot(survey_data_q_awareness_gender) +
   aes(`Gender`,
       n) +
   geom_col(position="dodge") +
   facet_wrap( ~ name) +
   theme(axis.text.x  = element_text(size = 3))
+  
+    ggplot(survey_data_q_awareness_gender) +
+  aes(x = name,
+      y = n,
+      fill = Gender) +
+   geom_bar(position="fill", stat="identity") +
+  theme(axis.text.x  = element_text(size = 3)) +
+coord_flip()
 ```
 
 Cultures encountered by ethinicity
