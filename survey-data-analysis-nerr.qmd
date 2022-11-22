@@ -57,9 +57,6 @@ Ten respondents fall into the 60-69, which is the most populous age range. Aroun
 
 # should we say how many people filled out the survey?
 
-
-```
-
 As seen in @fig-age-range, ten of the respondents who chose to state their age range are 60-69. Around eight respondents did not select their age range/choose to answer. (Ages 18-29 and 30-19 have seven respondents each. Five respondents were between 70-79. 50-59 had six respondents while 40-49 had four. Only one respondent selected 80 or older.)
 
 Ethnicity
