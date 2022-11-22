@@ -49,7 +49,10 @@ mutate(value = str_squish(value)) %>%
     geom_col() +
     coord_flip() +
     facet_wrap( ~ name)
+# can we make the n value be in integers instead of decimals?
 ```
+Ten respondents fall into the 60-69, which is the most populous age range. Around eight respondents did not select their age range/choose to answer. Ages 18-29 and 30-19 have seven respondents each. Five respondents were between 70-79. 50-59 had six respondents while 40-49 had four. Only one respondent selected 80 or older.
+
 
 Ethnicity
 
@@ -105,9 +108,7 @@ survey_data_q %>%
     coord_flip() +
     facet_wrap( ~ name)
 ```
-
-
-(Gender Identity - Prefer to self-identify as: - Text)
+Most of the survey respondents self-identify as female, at around 29. Roughly 8 respondents identify as male, and a few chose not to say. No one wrote in any preferred self-identifier.
 
 
 highest degree or level of schooling 
