@@ -67,7 +67,11 @@ As seen in @fig-age-range, ten of the respondents who chose to state their age r
 Ethnicity
 
 ```{r}
-survey_data_q %>% 
+#| label: fig-ethnicity-plot
+#| fig-cap: "Ethinicity of Survey Respondents"
+
+survey_data_q_ethinicity <-
+  survey_data_q %>% 
   select(starts_with("Ethinicity - Selected Choice")) %>%
   pivot_longer(everything()) %>% 
   mutate(name = str_remove_all(name, "Ethnicity - Selected Choice")) %>% 
@@ -88,7 +92,13 @@ survey_data_q %>%
     geom_col() +
     coord_flip() +
     facet_wrap( ~ name)
+
+n_caucasian <- survey_data_q_ethinicity %>% 
+  filter(value == "Caucasian (non-Hispanic)") %>% 
+  pull(n)
 ```
+As seen in @fig-ethinicity-plot, a majority of survey respondents identified as Caucasian and comprised of `r n_caucasian` individuals in the survey. 3 respondents identified as multi-racial, 2 as African American and 1 as Asian/Pacific Islander. 1 respondent chose the 'prefer not to answer' option. (1 person prefered to self-identify as 'human' in the text column). 
+
 
 Gender Identity
 
@@ -124,6 +134,8 @@ Most of the survey respondents self-identify as female, at `r `n_female`. Roughl
 highest degree or level of schooling
 
 ```{r}
+#| label: fig-schooling-plot
+#| fig-cap: "Highest Level of Schooling of Survey Respondents"
 
 survey_data_q %>% 
   select(starts_with("Please select the highest degree or level of schooling you have completed")) %>%
@@ -133,7 +145,7 @@ survey_data_q %>%
   mutate(value = str_squish(value)) %>% 
  mutate(value = fct_relevel(value,
                             c("Master's degree",
-                              "Bachelor's degee",
+                              "Bachelor's degree",
                               "Doctorate degree",
                               "Trade/technical/vocational training",
                               "Some college credit, no degree",
@@ -148,6 +160,8 @@ survey_data_q %>%
     facet_wrap( ~ name)
   
 ```
+As seen in @fig-schooling-plot, a majority of respondents either hold a bachelor's or master's degree as their highest level of schooling. 16 respondents listed a bachelor's degree as their highest level of school, while 15 individuals hold a master's degree and 4 respondents have a doctorate degree. 3 individuals responded that they have earned some college credits but no degree. 1 respondent has trade/technical,vocational training, and 1 respondent chose the 'prefer not to answer' option. 
+
 
 
 Zip code
@@ -660,8 +674,8 @@ survey_data_q %>%
   summarise(n = n()) %>% 
   ggplot() +
   aes(`Age Range`,
-      n) +
-  geom_col(position="dodge") +
+      value) +
+  geom_point(position="dodge") +
   facet_wrap( ~ name) +
   theme(axis.text.x  = element_text(size = 3))
 ```
