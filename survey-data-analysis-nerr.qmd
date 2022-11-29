@@ -211,6 +211,7 @@ survey_data_q  %>%
 ```{r}
 #| label: fig-activities
 #| fig-cap: "Activities of Survey Respondents"
+
 # Q2: When you come to the Guana Tolomato Matanzas (GTM) Research Reserve, what kind of activities do you engage in?
 
 survey_data_q_activities <-
