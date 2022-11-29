@@ -85,9 +85,10 @@ survey_data_q_ethinicity <-
                               "Prefer to self-identify as",
                               "Prefer not to answer"))) %>%
   group_by(name, value) %>% 
-  summarise(n = n()) %>% 
+  summarise(n = n())
   # plot
-  ggplot() +
+  
+  ggplot(survey_data_q_ethinicity) +
     aes(value, n) +
     geom_col() +
     coord_flip() +
@@ -97,7 +98,7 @@ n_caucasian <- survey_data_q_ethinicity %>%
   filter(value == "Caucasian (non-Hispanic)") %>% 
   pull(n)
 ```
-As seen in @fig-ethinicity-plot, a majority of survey respondents identified as Caucasian and comprised of `r n_caucasian` individuals in the survey. 3 respondents identified as multi-racial, 2 as African American and 1 as Asian/Pacific Islander. 1 respondent chose the 'prefer not to answer' option. (1 person prefered to self-identify as 'human' in the text column). 
+As seen in @fig-ethinicity-plot, a majority of survey respondents identified as Caucasian and comprised of `r n_caucasian` individuals in the survey. 3 respondents identified as multi-racial, 2 as African American and 1 as Asian/Pacific Islander. 1 respondent chose the 'prefer not to answer' option. (1 person preferred to self-identify as 'human' in the text column). 
 
 
 Gender Identity
