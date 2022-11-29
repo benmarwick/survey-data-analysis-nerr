@@ -255,8 +255,10 @@ n_volunteering <- survey_data_q_activities %>%
 As seen in @fig-activities, the most common activity for that respondents report doing at the GTM Research Reserve is walking, at `r n_walking`. The next most frequent activity is hiking, with `r n_hiking` respondents self-reporting partaking in this activity. More general recreational activities like walking, hiking, and general nature appreciation are more dominant than more specific recreational activities like visiting the beach, photography, bird watching, paddling, exercising, biking, fishing and dog walking. Research is the most dominant non-recreational activity, at `r n_research`survey respondents. Research, General Historic Resources Appreciation, Educational Programming, and Volunteering are non-recreational activities that are clustered together with between `r n_research` and `r n_volunteering` individuals reporting participation in them.
 
 ```{r}
+#| label: fig-cultural-familiarity
+#| fig-cap: "Familiarity With Cultures Through Time"
 # Q3: Have you heard of these cultures that used this area through time?
-
+survey_data_q_cultural_familiarity <-
 survey_data_q  %>%
   # select the columns relevant to this question
   select(starts_with("Have you heard of these cultures that used this area through time?")) %>%
@@ -275,15 +277,21 @@ survey_data_q  %>%
                                "I have never heard of this culture."))) %>% 
   # tally up
   group_by(name, value) %>% 
-  summarise(n = n()) %>% 
+  summarise(n = n()) 
+
   # plot
-  ggplot() +
+  ggplot(survey_data_q_cultural_familiarity) +
     aes(value, n) +
     geom_col() +
     coord_flip() +
     facet_wrap( ~ name)
+  
+  # inline code
+  n_descendants <- survey_data_q_cultural_familiarity %>%
+  filter(name == "I identify as a descendant of this culture.") %>% 
+  pull(n)
 ```
-
+`r n_descendants`
 ```{r}
 # Q4: How familiar are you with these types of cultural resources?
 

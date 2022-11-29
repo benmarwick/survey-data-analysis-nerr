@@ -369,7 +369,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>n_hiking <span class="ot">&lt;-</span> survey_data_q_activities <span class="sc">%&gt;%</span></span>
 <span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(kind_of_activities <span class="sc">==</span> <span class="st">"Hiking"</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(n)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(n)</span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>n_research <span class="ot">&lt;-</span> survey_data_q_activities <span class="sc">%&gt;%</span></span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(kind_of_activities <span class="sc">==</span> <span class="st">"Research"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(n)</span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>n_volunteering <span class="ot">&lt;-</span> survey_data_q_activities <span class="sc">%&gt;%</span></span>
+<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(kind_of_activities <span class="sc">==</span> <span class="st">"Volunteering"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(n)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div id="fig-activities" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
@@ -379,10 +387,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 </div>
-<p>As seen in <a href="#fig-activities">Figure&nbsp;5</a>, the most common activity for that respondents report doing at the GTM Research Reserve is walking, at 31. The next most frequent activity is hiking, with 26</p>
+<p>As seen in <a href="#fig-activities">Figure&nbsp;5</a>, the most common activity for that respondents report doing at the GTM Research Reserve is walking, at 31. The next most frequent activity is hiking, with 26 respondents self-reporting partaking in this activity. More general recreational activities like walking, hiking, and general nature appreciation are more dominant than more specific recreational activities like visiting the beach, photography, bird watching, paddling, exercising, biking, fishing and dog walking. Research is the most dominant non-recreational activity, at 16survey respondents. Research, General Historic Resources Appreciation, Educational Programming, and Volunteering are non-recreational activities that are clustered together with between 16 and 11 individuals reporting participation in them.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Q3: Have you heard of these cultures that used this area through time?</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>survey_data_q_cultural_familiarity <span class="ot">&lt;-</span></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>survey_data_q  <span class="sc">%&gt;%</span></span>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># select the columns relevant to this question</span></span>
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">starts_with</span>(<span class="st">"Have you heard of these cultures that used this area through time?"</span>)) <span class="sc">%&gt;%</span></span>
@@ -401,15 +409,26 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>                               <span class="st">"I have never heard of this culture."</span>))) <span class="sc">%&gt;%</span> </span>
 <span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>  <span class="co"># tally up</span></span>
 <span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(name, value) <span class="sc">%&gt;%</span> </span>
-<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">n =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span> </span>
-<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>  <span class="co"># plot</span></span>
-<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(value, n) <span class="sc">+</span></span>
-<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_col</span>() <span class="sc">+</span></span>
-<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>    <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
-<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a>    <span class="fu">facet_wrap</span>( <span class="sc">~</span> name)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">n =</span> <span class="fu">n</span>()) </span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>  <span class="co"># plot</span></span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(survey_data_q_cultural_familiarity) <span class="sc">+</span></span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(value, n) <span class="sc">+</span></span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_col</span>() <span class="sc">+</span></span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a>    <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a>    <span class="fu">facet_wrap</span>( <span class="sc">~</span> name)</span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a>  <span class="co"># inline code</span></span>
+<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a>  n_descendants <span class="ot">&lt;-</span> survey_data_q_cultural_familiarity <span class="sc">%&gt;%</span></span>
+<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(name <span class="sc">==</span> <span class="st">"I identify as a descendant of this culture."</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(n)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="survey-data-analysis-nerr_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
+<div id="fig-cultural-familiarity" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="survey-data-analysis-nerr_files/figure-html/fig-cultural-familiarity-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption class="figure-caption">Figure&nbsp;6: Familiarity With Cultures Through Time</figcaption><p></p>
+</figure>
+</div>
 </div>
 </div>
 <div class="cell">
