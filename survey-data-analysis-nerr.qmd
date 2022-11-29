@@ -85,9 +85,9 @@ survey_data_q_ethinicity <-
                               "Prefer to self-identify as",
                               "Prefer not to answer"))) %>%
   group_by(name, value) %>% 
-  summarise(n = n()) %>% 
+  summarise(n = n())
   # plot
-  ggplot() +
+  ggplot(survey_data_q_ethinicity) +
     aes(value, n) +
     geom_col() +
     coord_flip() +
@@ -129,9 +129,13 @@ survey_data_q %>%
 n_female <- survey_data_q_gender %>% 
   filter(value == "Female") %>% 
   pull(n)
+
+n_male <- survey_data_q_gender %>% 
+  filter(value == "Male") %>% 
+  pull(n)
 ```
 
-As seen in @fig-gender-identity, most of the survey respondents self-identify as female, at `r n_female`. Roughly 8 respondents identify as male, and a few chose not to say. No one wrote in any preferred self-identifier.
+As seen in @fig-gender-identity, most of the survey respondents self-identify as female, at `r n_female`. `r n_male` respondents identify as male, and a few chose not to say. No one wrote in any preferred self-identifier.
 
 highest degree or level of schooling
 
@@ -220,8 +224,10 @@ survey_data_q  %>%
   separate_rows(kind_of_activities, sep = ",") %>% 
   group_by(kind_of_activities) %>% 
   summarise(n = n()) %>% 
-  drop_na() %>% 
-  ggplot() +
+  drop_na()
+
+#plot
+  ggplot(survey_data_q_activities) +
     aes(reorder(kind_of_activities, 
                 n), n) +
     geom_col() +
@@ -229,12 +235,24 @@ survey_data_q  %>%
 
 # inline code
 
-#n_walking <- survey_data_q_activities %>% 
-  #filter(value == "Walking") %>% 
-  #pull(n)
+n_walking <- survey_data_q_activities %>% 
+  filter(kind_of_activities == "Walking") %>% 
+  pull(n)
+
+n_hiking <- survey_data_q_activities %>%
+  filter(kind_of_activities == "Hiking") %>% 
+  pull(n)
+
+n_research <- survey_data_q_activities %>%
+  filter(kind_of_activities == "Research") %>% 
+  pull(n)
+
+n_volunteering <- survey_data_q_activities %>%
+  filter(kind_of_activities == "Volunteering") %>% 
+  pull(n)
 ```
 
-As seen in @fig-activities, the most common activity for that respondents report doing at the GTM Research Reserve is walking, at `r n_walking`. The 
+As seen in @fig-activities, the most common activity for that respondents report doing at the GTM Research Reserve is walking, at `r n_walking`. The next most frequent activity is hiking, with `r n_hiking` respondents self-reporting partaking in this activity. More general recreational activities like walking, hiking, and general nature appreciation are more dominant than more specific recreational activities like visiting the beach, photography, bird watching, paddling, exercising, biking, fishing and dog walking. Research is the most dominant non-recreational activity, at `r n_research`survey respondents. Research, General Historic Resources Appreciation, Educational Programming, and Volunteering are non-recreational activities that are clustered together with between `r n_research` and `r n_volunteering` individuals reporting participation in them.
 
 ```{r}
 # Q3: Have you heard of these cultures that used this area through time?
