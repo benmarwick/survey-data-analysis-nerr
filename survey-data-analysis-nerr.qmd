@@ -252,7 +252,7 @@ n_volunteering <- survey_data_q_activities %>%
   pull(n)
 ```
 
-As seen in @fig-activities, the most common activity for that respondents report doing at the GTM Research Reserve is walking, at `r n_walking`. The next most frequent activity is hiking, with `r n_hiking` respondents self-reporting partaking in this activity. More general recreational activities like walking, hiking, and general nature appreciation are more dominant than more specific recreational activities like visiting the beach, photography, bird watching, paddling, exercising, biking, fishing and dog walking. Research is the most dominant non-recreational activity, at `r n_research`survey respondents. Research, General Historic Resources Appreciation, Educational Programming, and Volunteering are non-recreational activities that are clustered together with between `r n_research` and `r n_volunteering` individuals reporting participation in them.
+As seen in @fig-activities, the most common activity for that respondents report doing at the GTM Research Reserve is walking, at `r n_walking`. The next most frequent activity is hiking, with `r n_hiking` respondents self-reporting partaking in this activity. More general recreational activities like walking, hiking, and general nature appreciation are more dominant than more specific recreational activities like visiting the beach, photography, bird watching, paddling, exercising, biking, fishing and dog walking. Research is the most dominant non-recreational activity, at `r n_research` survey respondents. Research, General Historic Resources Appreciation, Educational Programming, and Volunteering are non-recreational activities that are clustered together with between `r n_research` and `r n_volunteering` individuals reporting participation in them.
 
 ```{r}
 #| label: fig-cultural-familiarity
@@ -630,6 +630,7 @@ coord_flip()
 Cultures encountered by ethinicity
 
 ```{r}
+survey_data_q_culture_by_ethnicity <- 
 survey_data_q %>% 
   select(Ethinicity = starts_with("Ethinicity - Selected Choice"),
          starts_with("Have you encountered any of these cultural resources while at the GTM Research Reserve?")) %>% 
@@ -647,13 +648,17 @@ survey_data_q %>%
   mutate(simple_encounter = ifelse(value %in% c("Frequently Encountered", "Rarely Encountered"), "encountered", "not encountered")) %>% 
   group_by(`Ethinicity`, name, simple_encounter) %>% 
   summarise(n = n()) %>% 
-  filter(simple_encounter == "encountered") %>% 
-  ggplot() +
-  aes(`Ethinicity`,
-      n) +
-  geom_col(position="dodge") +
-  facet_wrap( ~ name) +
-  theme(axis.text.x  = element_text(size = 3))
+  filter(simple_encounter == "encountered")  %>% 
+  filter(!Ethinicity  %in% c("Prefer to self-identify as:",
+                             "Prefer not to answer"))
+
+ggplot(survey_data_q_culture_by_ethnicity) +
+  aes(x = name,
+      y = n,
+      fill = Ethinicity) +
+   geom_bar(position="fill", stat="identity") +
+  theme(axis.text.x  = element_text(size = 3)) +
+coord_flip()
 ```
 
 Cultures encountered by Gender
