@@ -19,7 +19,7 @@ survey_data_q <-
 
 ```
 
-## Introduction 
+## Introduction
 
 Dates that the survey was available... State here how many people filled out the survey
 
@@ -87,7 +87,10 @@ survey_data_q_ethinicity <-
   group_by(name, value) %>% 
   summarise(n = n())
   # plot
+<<<<<<< HEAD
   
+=======
+>>>>>>> 6f6a91d24563cf8fc96ec1bcf2a5ca81b1a8ccde
   ggplot(survey_data_q_ethinicity) +
     aes(value, n) +
     geom_col() +
@@ -98,12 +101,18 @@ n_caucasian <- survey_data_q_ethinicity %>%
   filter(value == "Caucasian (non-Hispanic)") %>% 
   pull(n)
 ```
+<<<<<<< HEAD
 As seen in @fig-ethinicity-plot, a majority of survey respondents identified as Caucasian and comprised of `r n_caucasian` individuals in the survey. 3 respondents identified as multi-racial, 2 as African American and 1 as Asian/Pacific Islander. 1 respondent chose the 'prefer not to answer' option. (1 person preferred to self-identify as 'human' in the text column). 
+=======
+>>>>>>> 6f6a91d24563cf8fc96ec1bcf2a5ca81b1a8ccde
 
+As seen in @fig-ethinicity-plot, a majority of survey respondents identified as Caucasian and comprised of `r n_caucasian` individuals in the survey. 3 respondents identified as multi-racial, 2 as African American and 1 as Asian/Pacific Islander. 1 respondent chose the 'prefer not to answer' option. (1 person prefered to self-identify as 'human' in the text column).
 
 Gender Identity
 
 ```{r}
+#| label: fig-gender-identity
+#| fig-cap: "Gender Identities of Survey Respondents"
 survey_data_q_gender <- 
 survey_data_q %>% 
   select(starts_with("Gender Identity - Selected Choice")) %>%
@@ -128,9 +137,13 @@ survey_data_q %>%
 n_female <- survey_data_q_gender %>% 
   filter(value == "Female") %>% 
   pull(n)
+
+n_male <- survey_data_q_gender %>% 
+  filter(value == "Male") %>% 
+  pull(n)
 ```
 
-Most of the survey respondents self-identify as female, at `r `n_female`. Roughly 8 respondents identify as male, and a few chose not to say. No one wrote in any preferred self-identifier.
+As seen in @fig-gender-identity, most of the survey respondents self-identify as female, at `r n_female`. `r n_male` respondents identify as male, and a few chose not to say. No one wrote in any preferred self-identifier.
 
 highest degree or level of schooling
 
@@ -161,9 +174,8 @@ survey_data_q %>%
     facet_wrap( ~ name)
   
 ```
-As seen in @fig-schooling-plot, a majority of respondents either hold a bachelor's or master's degree as their highest level of schooling. 16 respondents listed a bachelor's degree as their highest level of school, while 15 individuals hold a master's degree and 4 respondents have a doctorate degree. 3 individuals responded that they have earned some college credits but no degree. 1 respondent has trade/technical,vocational training, and 1 respondent chose the 'prefer not to answer' option. 
 
-
+As seen in @fig-schooling-plot, a majority of respondents either hold a bachelor's or master's degree as their highest level of schooling. 16 respondents listed a bachelor's degree as their highest level of school, while 15 individuals hold a master's degree and 4 respondents have a doctorate degree. 3 individuals responded that they have earned some college credits but no degree. 1 respondent has trade/technical,vocational training, and 1 respondent chose the 'prefer not to answer' option.
 
 Zip code
 
@@ -199,8 +211,6 @@ ggplot() +
 
 ```
 
-
-
 ```{r}
 # Q1: Have you visited the GTM Research Reserve?
 survey_data_q  %>%
@@ -211,23 +221,52 @@ survey_data_q  %>%
 ```
 
 ```{r}
+#| label: fig-activities
+#| fig-cap: "Activities of Survey Respondents"
+
 # Q2: When you come to the Guana Tolomato Matanzas (GTM) Research Reserve, what kind of activities do you engage in?
+
+survey_data_q_activities <-
 survey_data_q  %>%
   select(kind_of_activities = `When you visit the GTM Research Reserve, what kind of activities do you engage in? Check all that apply. - Selected Choice`) %>%
   separate_rows(kind_of_activities, sep = ",") %>% 
   group_by(kind_of_activities) %>% 
   summarise(n = n()) %>% 
-  drop_na() %>% 
-  ggplot() +
+  drop_na()
+
+#plot
+  ggplot(survey_data_q_activities) +
     aes(reorder(kind_of_activities, 
                 n), n) +
     geom_col() +
   coord_flip()
+
+# inline code
+
+n_walking <- survey_data_q_activities %>% 
+  filter(kind_of_activities == "Walking") %>% 
+  pull(n)
+
+n_hiking <- survey_data_q_activities %>%
+  filter(kind_of_activities == "Hiking") %>% 
+  pull(n)
+
+n_research <- survey_data_q_activities %>%
+  filter(kind_of_activities == "Research") %>% 
+  pull(n)
+
+n_volunteering <- survey_data_q_activities %>%
+  filter(kind_of_activities == "Volunteering") %>% 
+  pull(n)
 ```
 
-```{r}
-# Q3: Have you heard of these cultures that used this area through time?
+As seen in @fig-activities, the most common activity for that respondents report doing at the GTM Research Reserve is walking, at `r n_walking`. The next most frequent activity is hiking, with `r n_hiking` respondents self-reporting partaking in this activity. More general recreational activities like walking, hiking, and general nature appreciation are more dominant than more specific recreational activities like visiting the beach, photography, bird watching, paddling, exercising, biking, fishing and dog walking. Research is the most dominant non-recreational activity, at `r n_research`survey respondents. Research, General Historic Resources Appreciation, Educational Programming, and Volunteering are non-recreational activities that are clustered together with between `r n_research` and `r n_volunteering` individuals reporting participation in them.
 
+```{r}
+#| label: fig-cultural-familiarity
+#| fig-cap: "Familiarity With Cultures Through Time"
+# Q3: Have you heard of these cultures that used this area through time?
+survey_data_q_cultural_familiarity <-
 survey_data_q  %>%
   # select the columns relevant to this question
   select(starts_with("Have you heard of these cultures that used this area through time?")) %>%
@@ -246,15 +285,21 @@ survey_data_q  %>%
                                "I have never heard of this culture."))) %>% 
   # tally up
   group_by(name, value) %>% 
-  summarise(n = n()) %>% 
+  summarise(n = n()) 
+
   # plot
-  ggplot() +
+  ggplot(survey_data_q_cultural_familiarity) +
     aes(value, n) +
     geom_col() +
     coord_flip() +
     facet_wrap( ~ name)
+  
+  # inline code
+  n_descendants <- survey_data_q_cultural_familiarity %>%
+  filter(name == "I identify as a descendant of this culture.") %>% 
+  pull(n)
 ```
-
+`r n_descendants`
 ```{r}
 # Q4: How familiar are you with these types of cultural resources?
 
