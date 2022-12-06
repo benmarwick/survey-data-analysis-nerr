@@ -322,7 +322,9 @@ n_cult_familiar <- simple_survey_data_q_cultural_familiarity %>%
   filter(value == "cult_familiar") %>% 
   pull(n)
 ```
+
 As we can see in @fig-cultural-familiarity, visitors to the site are most familiar with the Timuca culture. There are `r n_cult_familiar` people who are familiar with ....
+
 ```{r}
 # Q4: How familiar are you with these types of cultural resources?
 
