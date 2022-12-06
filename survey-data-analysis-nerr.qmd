@@ -279,6 +279,7 @@ survey_data_q  %>%
                                "I am familiar with this culture.",
                                "I have heard of this culture.",
                                "I have never heard of this culture."))) %>% 
+
   # tally up
   group_by(name, value) %>% 
   summarise(n = n()) 
@@ -288,14 +289,40 @@ survey_data_q  %>%
     aes(value, n) +
     geom_col() +
     coord_flip() +
-    facet_wrap( ~ name)
+    facet_wrap( ~name)
   
-  # inline code
-  n_descendants <- survey_data_q_cultural_familiarity %>%
-  filter(name == "I identify as a descendant of this culture.") %>% 
+  
+  
+# simplifying cultural familiarity 
+simple_survey_data_q_cultural_familiarity <-
+  survey_data_q_cultural_familiarity <-
+survey_data_q  %>%
+  # select the columns relevant to this question
+  select(starts_with("Have you heard of these cultures that used this area through time?")) %>%
+  pivot_longer(everything()) %>% 
+  # remove some of the text that is reptitive here
+  mutate(name = str_remove_all(name, "Have you heard of these cultures that used this area through time\\? Please select the option that best describes your relationship with these cultures\\. - ")) %>% 
+  # omit NA
+  drop_na() %>% 
+  # omit spaces at the start and end of the text
+  mutate(value = str_squish(value)) %>% 
+  # order a factor so that the plot has logically ordered bars
+  mutate(value = fct_relevel(value, 
+                             c("I identify as a descendant of this culture.",
+                               "I am familiar with this culture.",
+                               "I have heard of this culture.",
+                               "I have never heard of this culture."))) %>%
+  mutate(simple_cult_familiarity = ifelse(value %in% c("I identify as a descendant of this culture.", "I am familiar with this culture.", "I have heard of this culture."), "cult_familiar", "cult_unfamiliar")) %>%
+  
+  group_by(simple_cult_familiarity, value) %>%
+    summarise(n = n())
+
+#inline code
+n_cult_familiar <- simple_survey_data_q_cultural_familiarity %>%
+  filter(value == "cult_familiar") %>% 
   pull(n)
 ```
-`r n_descendants`
+As we can see in @fig-cultural-familiarity, visitors to the site are most familiar with the Timuca culture. There are `r n_cult_familiar` people who are familiar with ....
 ```{r}
 # Q4: How familiar are you with these types of cultural resources?
 
