@@ -67,10 +67,10 @@ As seen in @fig-age-range, ten of the respondents who chose to state their age r
 Ethnicity
 
 ```{r}
-#| label: fig-ethinicity-plot
-#| fig-cap: "Ethinicity of Survey Respondents"
+#| label: fig-ethnicity-plot
+#| fig-cap: "Ethnicity of Survey Respondents"
 
-survey_data_q_ethinicity <-
+survey_data_q_ethnicity <-
   survey_data_q %>% 
   select(starts_with("Ethinicity - Selected Choice")) %>%
   pivot_longer(everything()) %>% 
@@ -88,21 +88,21 @@ survey_data_q_ethinicity <-
   summarise(n = n())
   # plot
 
-  ggplot(survey_data_q_ethinicity) +
+  ggplot(survey_data_q_ethnicity) +
     aes(value, n) +
     geom_col() +
     coord_flip() +
     facet_wrap( ~ name)
 
-n_caucasian <- survey_data_q_ethinicity %>% 
+n_caucasian <- survey_data_q_ethnicity %>% 
   filter(value == "Caucasian (non-Hispanic)") %>% 
   pull(n)
 ```
 
-As seen in @fig-ethinicity-plot, a majority of survey respondents identified as Caucasian and comprised of `r n_caucasian` individuals in the survey. 3 respondents identified as multi-racial, 2 as African American and 1 as Asian/Pacific Islander. 1 respondent chose the 'prefer not to answer' option. (1 person preferred to self-identify as 'human' in the text column). 
+As seen in @fig-ethnicity-plot, a majority of survey respondents identified as Caucasian and comprised of `r n_caucasian` individuals in the survey. 3 respondents identified as multi-racial, 2 as African American and 1 as Asian/Pacific Islander. 1 respondent chose the 'prefer not to answer' option. (1 person preferred to self-identify as 'human' in the text column). 
 
 
-As seen in @fig-ethinicity-plot, a majority of survey respondents identified as Caucasian and comprised of `r n_caucasian` individuals in the survey. 3 respondents identified as multi-racial, 2 as African American and 1 as Asian/Pacific Islander. 1 respondent chose the 'prefer not to answer' option. (1 person prefered to self-identify as 'human' in the text column).
+As seen in @fig-ethnicity-plot, a majority of survey respondents identified as Caucasian and comprised of `r n_caucasian` individuals in the survey. 3 respondents identified as multi-racial, 2 as African American and 1 as Asian/Pacific Islander. 1 respondent chose the 'prefer not to answer' option. (1 person prefered to self-identify as 'human' in the text column).
 
 Gender Identity
 
@@ -208,6 +208,8 @@ ggplot() +
 ```
 
 ```{r}
+#|label: fig-visit-GTM
+#| fig-cap: "Respondents Who Visited GTM Research Reserve"
 # Q1: Have you visited the GTM Research Reserve?
 survey_data_q  %>%
   select(`Have you visited the GTM Research Reserve?`) %>%
@@ -285,12 +287,11 @@ survey_data_q  %>%
   summarise(n = n()) 
 
   # plot
-  ggplot(survey_data_q_cultural_familiarity) +
-    aes(value, n) +
-    geom_col() +
-    coord_flip() +
-    facet_wrap( ~name)
-  
+  #ggplot(survey_data_q_cultural_familiarity) +
+   # aes(value, n) +
+   # geom_col() +
+   # coord_flip() +
+   # facet_wrap( ~name)
   
   
 # simplifying cultural familiarity 
@@ -321,18 +322,27 @@ survey_data_q  %>%
 n_cult_familiar <- simple_survey_data_q_cultural_familiarity %>%
   filter(value == "cult_familiar") %>% 
   pull(n)
+
+# plot simple cultural familiarity
+  ggplot(simple_survey_data_q_cultural_familiarity ) +
+    aes(value, n) +
+    geom_col() +
+    coord_flip() +
+    facet_wrap( ~n_cult_familiar)
 ```
 
 As we can see in @fig-cultural-familiarity, visitors to the site are most familiar with the Timuca culture. There are `r n_cult_familiar` people who are familiar with ....
 
 ```{r}
+#|label:fig-cultural-resources-familiarity
+#| fig-cap: "Familiarity With Cultural Resources"
 # Q4: How familiar are you with these types of cultural resources?
 
 survey_data_q  %>%
   # select the columns relevant to this question
   select(starts_with("How familiar are you with these types of cultural resources?")) %>%
   pivot_longer(everything()) %>% 
-  # remove some of the text that is reptitive here
+  # remove some of the text that is repetitive here
   mutate(name = str_remove_all(name, "How familiar are you with these types of cultural resources\\? - ")) %>% 
   # omit NA
   drop_na() %>% 
@@ -355,8 +365,10 @@ survey_data_q  %>%
     coord_flip() +
     facet_wrap( ~ name)
 ```
-
+In @fig-cultural-resources
 ```{r}
+#|label: fig-encountering-resources
+#| fig-cap: "Encountering Cultural Resources at the GTM Research Reserve"
 # Q5: Have you encountered any of these cultural resources while at the GTM Research Reserve? 
 
 survey_data_q %>% 
@@ -379,8 +391,10 @@ survey_data_q %>%
     coord_flip() +
     facet_wrap( ~ name)
 ```
-
+In @fig-encountering-resources
 ```{r}
+#|label: fig-effects-climate-change
+#| fig-cap: "Noticing the Effects of Climate Change"
 # Q7. Have you noticed or experienced any of the following effects from climate change while visiting the Reserve?
 # There is definitely a better and more legible way to do this. I want to reorder the axes and see if that helps, but I'm sure there's a faster way to pull.
 
@@ -409,8 +423,10 @@ mutate(value = str_squish(value)) %>%
     coord_flip() +
     facet_wrap( ~ name)
 ```
-
+In @fig-effects-climate-change
 ```{r}
+#|label: fig-threat-cultural
+#| fig-cap: "Percieved Threats to Cultural Resources"
 # Q8. What do you see as the biggest threat to cultural resources? 
 
 survey_data_q  %>%
@@ -431,10 +447,13 @@ survey_data_q  %>%
 #Omitted the column containing free text (other). Is there a better way to do Q8?
 
 ```
+In @fig-threat-cultural...
 
 How about age and activity?
 
 ```{r}
+#|label: fig-age-activity
+#| fig-cap: "Activity by Age"
 survey_data_q_activity_age <- 
 survey_data_q %>% 
   select(starts_with("Age Range"),
@@ -451,10 +470,12 @@ survey_data_q %>%
   theme(axis.text.x  = element_text(size = 3)) +
 coord_flip()
 ```
-
+In @fig-age-activity
 Age by awareness of cultural resources
 
 ```{r}
+#|label: fig-age-awareness-cultural-res
+#| fig-cap: "Awareness of Cultural Resources by Age"
 survey_data_q %>% 
   select(starts_with("Age Range"),
          starts_with("How familiar are you with these types of cultural resources?")) %>% 
@@ -484,10 +505,12 @@ survey_data_q %>%
   facet_wrap( ~ name) +
   theme(axis.text.x  = element_text(size = 3))
 ```
-
+In @fig-age-awareness-cultural-res...
 Age by cultures encountered
 
 ```{r}
+#|label: fig-age-encountering-cultural-res
+#| fig-cap: "Encountering Cultural Resources by Age"
 survey_data_q %>% 
   select(starts_with("Age Range"),
          starts_with("Have you encountered any of these cultural resources while at the GTM Research Reserve?")) %>% 
@@ -514,10 +537,13 @@ survey_data_q %>%
   theme(axis.text.x  = element_text(size = 3))
   
 ```
-
+In @fig-age-encountering-cultural-res
 Activity and Level of Education
 
 ```{r}
+#|label: fig-activity-schooling
+#| fig-cap: "Activities at the GTM by Level of Schooling"
+
 survey_data_q %>% 
   select(schooling = starts_with("Please select the highest degree or level of schooling you have completed"),
          kind_of_activities = `When you visit the GTM Research Reserve, what kind of activities do you engage in? Check all that apply. - Selected Choice`) %>% 
@@ -548,11 +574,13 @@ survey_data_q %>%
   theme(axis.text.x  = element_text(size = 3))
 
 ```
+In @fig-activity-schooling...
 
 Awareness of cultural resources by Level of Education
 
 ```{r}
-
+#|label: fig-edu-awareness-cult-res
+#| fig-cap: "Awareness of Cultural Resources by Level of Education"
 survey_data_q %>% 
   select(schooling = starts_with("Please select the highest degree or level of schooling you have completed"),
          starts_with("How familiar are you with these types of cultural resources?"))  %>% 
@@ -589,14 +617,16 @@ survey_data_q %>%
   theme(axis.text.x  = element_text(size = 5))
 
 ```
-
+In @fig-edu-awareness-cult-res
 Awareness of cultural resources by ethnicity
 
 ```{r}
+#|label: fig-ethnicity-awareness-cult-res
+#| fig-cap: "Awareness of Cultural Resources by Ethnicity"
 survey_data_q %>% 
-  select(Ethinicity = starts_with("Ethinicity - Selected Choice"),
+  select(Ethnicity = starts_with("Ethinicity - Selected Choice"),
          starts_with("How familiar are you with these types of cultural resources?")) %>% 
- pivot_longer(-`Ethinicity`) %>% 
+ pivot_longer(-`Ethnicity`) %>% 
   mutate(name = str_remove_all(name, "How familiar are you with these types of cultural resources\\? - ")) %>% 
   drop_na() %>% 
   # omit spaces at the start and end of the text
@@ -609,20 +639,22 @@ survey_data_q %>%
                               "Slightly familiar",
                               "Not familiar at all"))) %>%
   mutate(simple_familiarity = ifelse(value %in% c("Extremely familiar", "Very familiar"), "familiar", "not familiar")) %>% 
-  group_by(`Ethinicity`, name, simple_familiarity) %>% 
+  group_by(`Ethnicity`, name, simple_familiarity) %>% 
   summarise(n = n()) %>% 
   filter(simple_familiarity == "familiar") %>% 
   ggplot() +
-  aes(`Ethinicity`,
+  aes(`Ethnicity`,
       n) +
   geom_col(position="dodge") +
   facet_wrap( ~ name) +
   theme(axis.text.x  = element_text(size = 3))
 ```
-
+In @fig-ethnicity-awareness-cult-res, since most of the survey respondents identify as Caucasian... different vis?
 Awareness of cultural resources by gender
 
 ```{r}
+#|label: fig-gender-awareness-cult-res
+#| fig-cap: "Awareness of Cultural Resources by Gender"
 survey_data_q_awareness_gender <- 
 survey_data_q %>% 
   select(Gender = starts_with("Gender Identity - Selected Choice"),
@@ -659,15 +691,17 @@ survey_data_q %>%
   theme(axis.text.x  = element_text(size = 3)) +
 coord_flip()
 ```
-
-Cultures encountered by ethinicity
+In @fig-gender-awareness-cult-res
+Cultures encountered by ethnicity
 
 ```{r}
+#|label: fig-ethnicity-encountered-cult-res
+#| fig-cap: "Encountered Cultural Resources by Ethnicity"
 survey_data_q_culture_by_ethnicity <- 
 survey_data_q %>% 
-  select(Ethinicity = starts_with("Ethinicity - Selected Choice"),
+  select(Ethnicity = starts_with("Ethinicity - Selected Choice"),
          starts_with("Have you encountered any of these cultural resources while at the GTM Research Reserve?")) %>% 
- pivot_longer(-`Ethinicity`) %>% 
+ pivot_longer(-`Ethnicity`) %>% 
   mutate(name = str_remove_all(name, "Have you encountered any of these cultural resources while at the GTM Research Reserve\\? - ")) %>% 
   drop_na() %>% 
   # omit spaces at the start and end of the text
@@ -679,24 +713,26 @@ survey_data_q %>%
                               "Never Encountered",
                               "Unsure"))) %>%
   mutate(simple_encounter = ifelse(value %in% c("Frequently Encountered", "Rarely Encountered"), "encountered", "not encountered")) %>% 
-  group_by(`Ethinicity`, name, simple_encounter) %>% 
+  group_by(`Ethnicity`, name, simple_encounter) %>% 
   summarise(n = n()) %>% 
   filter(simple_encounter == "encountered")  %>% 
-  filter(!Ethinicity  %in% c("Prefer to self-identify as:",
+  filter(!Ethnicity  %in% c("Prefer to self-identify as:",
                              "Prefer not to answer"))
 
 ggplot(survey_data_q_culture_by_ethnicity) +
   aes(x = name,
       y = n,
-      fill = Ethinicity) +
+      fill = Ethnicity) +
    geom_bar(position="fill", stat="identity") +
   theme(axis.text.x  = element_text(size = 3)) +
 coord_flip()
 ```
-
+In @fig-ethnicity-encountered-cult-res
 Cultures encountered by Gender
 
 ```{r}
+#|label: fig-gender-encountered-cult-res
+#| fig-cap: "Encountered of Cultural Resources by Gender"
 survey_data_q %>% 
   select(Gender = starts_with("Gender Identity - Selected Choice"),
          starts_with("Have you encountered any of these cultural resources while at the GTM Research Reserve?")) %>% 
@@ -722,10 +758,12 @@ survey_data_q %>%
   facet_wrap( ~ name) +
   theme(axis.text.x  = element_text(size = 3))
 ```
-
+In @fig-gender-encountered-cult-res
 Biggest threat by age
 
 ```{r}
+#|label: fig-age-threat
+#| fig-cap: "Perceived Threat to Cultural Resources by Age"
 survey_data_q %>% 
   select(starts_with("Age Range"),
          starts_with("What do you see as the biggest threat to cultural resources?"),
@@ -755,15 +793,17 @@ survey_data_q %>%
   facet_wrap( ~ name) +
   theme(axis.text.x  = element_text(size = 3))
 ```
-
-Biggest Threat by ethinicity
+In @fig-age-threat
+Biggest Threat by ethnicity
 
 ```{r}
+#|label: fig-ethnicity-threat
+#| fig-cap: "Perceived Threat to Cultural Resoures by Ethnicity "
 survey_data_q %>% 
-  select(Ethinicity = starts_with("Ethinicity - Selected Choice"),
+  select(Ethnicity = starts_with("Ethinicity - Selected Choice"),
          starts_with("What do you see as the biggest threat to cultural resources?"),
          -ends_with("Text")) %>% 
- pivot_longer(-`Ethinicity`) %>% 
+ pivot_longer(-`Ethnicity`) %>% 
   mutate(name = str_remove_all(name, "What do you see as the biggest threat to cultural resources\\? Please drag the choices to rank them with the most threatening as 1\\. - ")) %>% 
   drop_na() %>% 
   # omit spaces at the start and end of the text
@@ -779,19 +819,21 @@ survey_data_q %>%
                               "3",
                               "2",
                               "1"))) %>%
-  group_by(`Ethinicity`, name, value) %>% 
+  group_by(`Ethnicity`, name, value) %>% 
   summarise(n = n()) %>% 
   ggplot() +
-  aes(`Ethinicity`,
+  aes(`Ethnicity`,
       value) +
   geom_point(position="dodge") +
   facet_wrap( ~ name) +
   theme(axis.text.x  = element_text(size = 3))
 ```
-
+In @fig-ethnicity-threat...
 Biggest Threat by Gender
 
 ```{r}
+#|label: fig-gender-threat
+#| fig-cap: "Perceived Threat to Cultural Resources by Gender"
 survey_data_q %>% 
   select(Gender = starts_with("Gender Identity - Selected Choice"),
          starts_with("What do you see as the biggest threat to cultural resources?"),
@@ -821,10 +863,12 @@ survey_data_q %>%
   facet_wrap( ~ name) +
   theme(axis.text.x  = element_text(size = 3))
 ```
-
+In @fig-gender-threat
 Biggest Threat by level of education
 
 ```{r}
+#|label: fig-edu-threat
+#| fig-cap: "Percieved Threat to Cultural Resources by Level of Education"
 survey_data_q %>% 
   select(schooling = starts_with("Please select the highest degree or level of schooling you have completed"),
          starts_with("What do you see as the biggest threat to cultural resources?"),
@@ -860,3 +904,4 @@ survey_data_q %>%
   facet_wrap( ~ name) +
   theme(axis.text.x  = element_text(size = 3))
 ```
+In @fig-edu-threat...
