@@ -484,7 +484,7 @@ survey_data_q %>%
   filter(simple_familarity == "familiar") %>% 
   ggplot() +
   aes(`Age Range`,
-      n) +
+      n, fill = `Age Range`) +
   geom_col(position="dodge") +
   facet_wrap( ~ name) +
   theme(axis.text.x  = element_text(size = 3))
