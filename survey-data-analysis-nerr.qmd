@@ -52,7 +52,7 @@ mutate(value = str_squish(value)) %>%
 
   # plot
   ggplot(survey_data_q_age) +
-    aes(value, n) +
+    aes(value, n,  fill = value) +
     geom_col() +
     coord_flip() +
     facet_wrap( ~ name) +
@@ -263,13 +263,14 @@ As seen in @fig-activities, the most common activity for that respondents report
 ```{r}
 #| label: fig-cultural-familiarity
 #| fig-cap: "Familiarity With Cultures Through Time"
+
 # Q3: Have you heard of these cultures that used this area through time?
 survey_data_q_cultural_familiarity <-
 survey_data_q  %>%
   # select the columns relevant to this question
   select(starts_with("Have you heard of these cultures that used this area through time?")) %>%
   pivot_longer(everything()) %>% 
-  # remove some of the text that is reptitive here
+  # remove some of the text that is repetitive here
   mutate(name = str_remove_all(name, "Have you heard of these cultures that used this area through time\\? Please select the option that best describes your relationship with these cultures\\. - ")) %>% 
   # omit NA
   drop_na() %>% 
@@ -286,56 +287,23 @@ survey_data_q  %>%
   group_by(name, value) %>% 
   summarise(n = n()) 
 
-  # plot
-  #ggplot(survey_data_q_cultural_familiarity) +
-   # aes(value, n) +
-   # geom_col() +
-   # coord_flip() +
-   # facet_wrap( ~name)
+  #plot
+  ggplot(survey_data_q_cultural_familiarity) +
+   aes(value, n) +
+   geom_col() +
+   coord_flip() +
+   facet_wrap( ~name)
   
   
-# simplifying cultural familiarity 
-simple_survey_data_q_cultural_familiarity <-
-  survey_data_q_cultural_familiarity <-
-survey_data_q  %>%
-  # select the columns relevant to this question
-  select(starts_with("Have you heard of these cultures that used this area through time?")) %>%
-  pivot_longer(everything()) %>% 
-  # remove some of the text that is reptitive here
-  mutate(name = str_remove_all(name, "Have you heard of these cultures that used this area through time\\? Please select the option that best describes your relationship with these cultures\\. - ")) %>% 
-  # omit NA
-  drop_na() %>% 
-  # omit spaces at the start and end of the text
-  mutate(value = str_squish(value)) %>% 
-  # order a factor so that the plot has logically ordered bars
-  mutate(value = fct_relevel(value, 
-                             c("I identify as a descendant of this culture.",
-                               "I am familiar with this culture.",
-                               "I have heard of this culture.",
-                               "I have never heard of this culture."))) %>%
-  mutate(simple_cult_familiarity = ifelse(value %in% c("I identify as a descendant of this culture.", "I am familiar with this culture.", "I have heard of this culture."), "cult_familiar", "cult_unfamiliar")) %>%
-  
-  group_by(simple_cult_familiarity, value) %>%
-    summarise(n = n())
-
-#inline code
-n_cult_familiar <- simple_survey_data_q_cultural_familiarity %>%
-  filter(value == "cult_familiar") %>% 
-  pull(n)
-
-# plot simple cultural familiarity
-  ggplot(simple_survey_data_q_cultural_familiarity ) +
-    aes(value, n) +
-    geom_col() +
-    coord_flip() +
-    facet_wrap( ~n_cult_familiar)
+# I want to make sure to refer to cultural groups with the correct language
 ```
 
-As we can see in @fig-cultural-familiarity, visitors to the site are most familiar with the Timuca culture. There are `r n_cult_familiar` people who are familiar with ....
+As we can see in @fig-cultural-familiarity, all survey respondents were familiar with the Spanish colonist culture, the Timucua culture, the British colonist culture, and the Seminole culture. More than thirty visitors were familiar with the Spanish colonist culture, as well as with the Timucua culture, and Gullah Geechee culture. Survey respondents were least familiar with the Guale culture, and the ancestral period native cultures.
 
 ```{r}
 #|label:fig-cultural-resources-familiarity
 #| fig-cap: "Familiarity With Cultural Resources"
+
 # Q4: How familiar are you with these types of cultural resources?
 
 survey_data_q  %>%
@@ -364,11 +332,16 @@ survey_data_q  %>%
     geom_col() +
     coord_flip() +
     facet_wrap( ~ name)
+
+#Would simplifying familiarity be useful here?
 ```
-In @fig-cultural-resources
+
+In @fig-cultural-resources, we can see that all survey respondents are at least moderately familiar with the shipwrecks and historic cemeteries, as none report being "not familiar at all" with these cultural resources. Around fourteen people report being very familiar with the wells. More than fiften people are only slightly familiar with the canals in the area. Respondents are most unfamiliar with the remains of industrial activity, shell rings, as well as ship hards, docks, and wharves. Less than five respondents report being unfamiliar with mounds, canals, "slave" cabins, Spanish missions, remains of agricultural activity, shell middens, and plantations.
+
 ```{r}
 #|label: fig-encountering-resources
 #| fig-cap: "Encountering Cultural Resources at the GTM Research Reserve"
+
 # Q5: Have you encountered any of these cultural resources while at the GTM Research Reserve? 
 
 survey_data_q %>% 
@@ -390,11 +363,15 @@ survey_data_q %>%
     geom_col() +
     coord_flip() +
     facet_wrap( ~ name)
+#should facet be reordered so that it is consistent between the q4 plot of unfamiliar-> familiar, and never encountered-> frequently encountered?
 ```
-In @fig-encountering-resources
+
+@fig-encountering-resources shows that more than twenty survey respondents have never encountered "slave" cabins, the remains of industrial activity or Spanish missions respectively, at the GTM Research Reserve. Almost twenty respondents report that they have never encountered plantations, ship hards, docks, and wharves, or shipwrecks each, at the reserve. Shell Middens are the most frequently encountered cultural resource at the GTM Research Reserve, with more than fifteen respondents. Respondents are most unsure as to whether or not they have encountered shell rings at the GTM Research reserve. We can also see that respondents  report encountering wells with some level of frequency, more encountering them overall than not.
+
 ```{r}
 #|label: fig-effects-climate-change
 #| fig-cap: "Noticing the Effects of Climate Change"
+
 # Q7. Have you noticed or experienced any of the following effects from climate change while visiting the Reserve?
 # There is definitely a better and more legible way to do this. I want to reorder the axes and see if that helps, but I'm sure there's a faster way to pull.
 
@@ -423,10 +400,13 @@ mutate(value = str_squish(value)) %>%
     coord_flip() +
     facet_wrap( ~ name)
 ```
-In @fig-effects-climate-change
+
+Respondents overwhelmingly report that they have noticed increased coastal erosion at the GTM research reserve, at more than 25, as seen in @fig-effects-climate-change. Changes in seasonality, a high water table, and species shifts or extinctions are less prominently noticed at the reserve. Other more noticeable effects of climate change are increased and intensified storm events, increased flooding events, increasing temperatures, and increasing frequency or severity of storms, with more than fifteen respondents reporting that they notice or have experienced these effects a lot at the reserve.
+
 ```{r}
 #|label: fig-threat-cultural
 #| fig-cap: "Percieved Threats to Cultural Resources"
+
 # Q8. What do you see as the biggest threat to cultural resources? 
 
 survey_data_q  %>%
@@ -446,14 +426,17 @@ survey_data_q  %>%
 
 #Omitted the column containing free text (other). Is there a better way to do Q8?
 
+# would color be a good addition for visualizing the gradation of threat?
+
 ```
-In @fig-threat-cultural...
+In @fig-threat-cultural, we can see that respondents percieve sea level rise as a major threat to the cultural resources at the reserve, more than ten respondents ranking it as the top threat to cultural resources. Increasing and intensified storm events are clustered around higher degrees of the threat to cultural resources, at six or higher. Notably, almost fifteen respondents rank flooding as the third most threatening effect of climate change to the reserve. Development is also ranked as the top threat to resources by more than ten survey respondents. Overuse, infrastructure, and management issues are perceived as less threatening by survey respondents. Noticeably, aside from development, climate change related threats, including sea level rise, increased and intensified storm events, and flooding, are ranked by most survey respondents as the greatest threats to the reserve. 
 
 How about age and activity?
 
 ```{r}
 #|label: fig-age-activity
 #| fig-cap: "Activity by Age"
+
 survey_data_q_activity_age <- 
 survey_data_q %>% 
   select(starts_with("Age Range"),
@@ -470,7 +453,8 @@ survey_data_q %>%
   theme(axis.text.x  = element_text(size = 3)) +
 coord_flip()
 ```
-In @fig-age-activity
+
+In @fig-age-activity, we can observe that all survey respondents who walk their dogs while visiting the reserve fall within the age range of 40-49. As we saw in @fig-activities, the most common activities among survey respondents included walking, hiking, and general nature appreciation, with more than twenty respondents reporting partaking in each of these activities. In @fig-age-activity, we can see overlap. The most common activities involving respondents distributed across each of seven out of the eight age ranges, are walking, general nature appreciation, and general historic resources appreciation. Research is also among these in @fig-age-activity, with seven out of the eight age ranges partaking in this activity while at GTM. The activity undertaken in the greatest proportion for the 18-29 age range is general resources appreciation, comprising one quarter of those who participate in that activity. Notably, at the most numerous age range, including ten respondents, indivudals ranging between 60-69 comprise varying proportion of every activity, except dog walking. 
 Age by awareness of cultural resources
 
 ```{r}
