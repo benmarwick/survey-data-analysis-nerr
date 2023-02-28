@@ -454,7 +454,7 @@ survey_data_q %>%
 coord_flip()
 ```
 
-In @fig-age-activity, we can observe that all survey respondents who walk their dogs while visiting the reserve fall within the age range of 40-49. As we saw in @fig-activities, the most common activities among survey respondents included walking, hiking, and general nature appreciation, with more than twenty respondents reporting partaking in each of these activities. In @fig-age-activity, we can see overlap. The most common activities involving respondents distributed across each of seven out of the eight age ranges, are walking, general nature appreciation, and general historic resources appreciation. Research is also among these in @fig-age-activity, with seven out of the eight age ranges partaking in this activity while at GTM. The activity undertaken in the greatest proportion for the 18-29 age range is general resources appreciation, comprising one quarter of those who participate in that activity. Notably, at the most numerous age range, including ten respondents, indivudals ranging between 60-69 comprise varying proportion of every activity, except dog walking. 
+In @fig-age-activity, we can observe that all survey respondents who walk their dogs while visiting the reserve fall within the age range of 40-49. As we saw in @fig-activities, the most common activities among survey respondents included walking, hiking, and general nature appreciation, with more than twenty respondents reporting partaking in each of these activities. In @fig-age-activity, we can see overlap. The most common activities involving respondents distributed across each of seven out of the eight age ranges, are walking, general nature appreciation, and general historic resources appreciation. Research is also among these in @fig-age-activity, with seven out of the eight age ranges partaking in this activity while at GTM. The activity undertaken in the greatest proportion for the 18-29 age range is general resources appreciation, comprising one quarter of those who participate in that activity. Notably, at the most numerous age range, including ten respondents, individuals ranging between 60-69 comprise varying proportion of every activity, except dog walking. 
 Age by awareness of cultural resources
 
 ```{r}
@@ -489,7 +489,8 @@ survey_data_q %>%
   facet_wrap( ~ name) +
   theme(axis.text.x  = element_text(size = 3))
 ```
-In @fig-age-awareness-cultural-res...
+In @fig-age-awareness-cultural-res more than 6 respondents between ages 60-69 report familiarity with both "Slave" cabins and Plantations. Two or fewer respondents in this age range report familiarity with canals and the remains of industrial activity at the reserve. The least number of respondents across the age ranges report familiarity with the cultural resource of canals. Six respondents in the 30-39 age range report that they are familiar with shell middens and historic cemeteries. Respondents in the ages 70-79 and 80 or older do not report awareness of historic cemeteries, the remains of agricultural activity, shipwrecks, or the remains of industrial activity. Five respondents between 40-49 report familiarity with wells, and four in this range report familiarity with "Slave" cabins, shell rings, Spanish missions, shell middens, historic cemeteries, and plantations. Four respondents ages 50-59 report familiarity with mounds and "Slave" cabins. There are respondents in higher numbers across all ranges who are familiar with mounds and shell middens, whereas few respondents of any age range report familiarity with ship hards, docks, and wharves, the remains of agricultural activitity, and the remains of industrial activity, and canals.
+
 Age by cultures encountered
 
 ```{r}
