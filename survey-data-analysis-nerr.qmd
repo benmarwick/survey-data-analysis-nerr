@@ -634,12 +634,12 @@ survey_data_q %>%
   filter(simple_familiarity == "familiar") %>% 
   ggplot() +
   aes(`Ethnicity`,
-      n) +
+      n, fill = `Ethnicity`) +
   geom_col(position="dodge") +
   facet_wrap( ~ name) +
   theme(axis.text.x  = element_text(size = 3))
 ```
-In @fig-ethnicity-awareness-cult-res, since most of the survey respondents identify as Caucasian (non-Hispanic), as seen in @fig-ethnicity-plot , this demographic reports familiarity with cultural resources at the GTM in the greatest quantity. One or more respondents who identify as multiracial report familiarity with all of these cultural resources at the GTM. No respondents who identify as African-American, Asian/Pacific Islander, preferred not to answer or self-identified some other way reported familiarity with canals, remains of industrial activity, or ship hards, docks, and wharves. 
+In @fig-ethnicity-awareness-cult-res, since most of the survey respondents identify as Caucasian (non-Hispanic), as seen in @fig-ethnicity-plot , this demographic reports awareness of cultural resources at the GTM in the greatest quantity. One or more respondents who identify as multiracial report awareness of all of these cultural resources at the GTM. No respondents who identify as African-American, Asian/Pacific Islander, preferred not to answer or self-identified some other way reported awareness of canals, remains of industrial activity, or ship hards, docks, and wharves. Shell middens are the cultural resource that the greatest range of respondents across chosen demographic categories report awareness about, with awareness reported by respondents from all but one self-identified ethnicity.
 
 Awareness of cultural resources by gender
 
@@ -682,7 +682,8 @@ survey_data_q %>%
   theme(axis.text.x  = element_text(size = 3)) +
 coord_flip()
 ```
-In @fig-gender-awareness-cult-res
+In @fig-gender-awareness-cult-res, we can see that respondents who identify as female report awareness of cultural resources in the greatest proportions overall. Notably, canals are more evenly split at around half of those reporting awareness identifying as female, while the remaining half identifies as male, or else preferred not to say. Female respondents report awareness in the lowest proportion for this cultural resource. Indviduals who preferred not to say their gender identity do not report awareness of wells. Roughly one quarter of respondents who report awareness of wells, ship hards, docks, wharves, and the remains of industrial activity identify as male. 
+
 Cultures encountered by ethnicity
 
 ```{r}
@@ -718,7 +719,9 @@ ggplot(survey_data_q_culture_by_ethnicity) +
   theme(axis.text.x  = element_text(size = 3)) +
 coord_flip()
 ```
-In @fig-ethnicity-encountered-cult-res
+
+In @fig-ethnicity-encountered-cult-res, we can see that multi-racial respondents in their greatest proportion report encountering plantations at the GTM. Asian/Pacific islander respondents in their greatest proportions report encountering "Slave" cabins, SPanish Missions, and the Remains of industrial activities. No Asian/pacific islander respondents report encountering historic cemeteries at the GTM. No African-American respondents report encountering shell middens at the GTM. African-American respondents report encountering Spanish missions, the remains of industrial activity, and "Slave" cabins in roughly equal proportion. Caucasion (non-Hispanic) respondents comprise the greatest proportion of respondents by demographic who report encountering shell middens. 
+
 Cultures encountered by Gender
 
 ```{r}
@@ -744,12 +747,13 @@ survey_data_q %>%
   filter(simple_encounter == "encountered") %>% 
   ggplot() +
   aes(`Gender`,
-      n) +
+      n, fill = `Gender`) +
   geom_col(position="dodge") +
   facet_wrap( ~ name) +
   theme(axis.text.x  = element_text(size = 3))
 ```
-In @fig-gender-encountered-cult-res
+In @fig-gender-encountered-cult-res , respondents who report encountering "Slave" cabins are fewest uniformly across gender. Respondents who identify as female comprise the greatest number of survey respondents as seen in @fig-gender-identity. Encounters with shell middens are uniformly high across gender. The greatest number of respondents who preferred not to say their gender report that they have encountered shell middens at the GTM, whilst none in this group report encountering historic cemeteries. Fewer than five respondents who identify as male report encountering ship hards, docks, and wharves, historic cemeteries, Spanish missions, "Slave" cabins, and remains of industrial activity at the GTM research reserve. More than five respondents who identify as male report encountering wells, remains of agricultural activity, canals, and shell middens at the GTM research reserve. More Fifteen or more respondents who identify as female report encountering wells and shell middens at the GTM research reserve, and just under 15 report encountering the remains of agricultural activity. 
+
 Biggest threat by age
 
 ```{r}
@@ -780,11 +784,12 @@ survey_data_q %>%
   ggplot() +
   aes(`Age Range`,
       value) +
-  geom_point(position="dodge") +
+  geom_point(position="dodge", aes(colour = `Age Range`)) +
   facet_wrap( ~ name) +
   theme(axis.text.x  = element_text(size = 3))
 ```
-In @fig-age-threat
+In @fig-age-threat we can see that respondents from all age groups rank sea level rise as the most threatening, or among the most threatening to cultural resources at the GTM. Similarly, respondents across all ages tend to rank climate related concerns like flooding, increased and intensified storm events as among the most threatening to the cultural resources at the reserve. Respondents between 18-29 and 50-59 tend to rank infrastructure (e.g. construction of roads) in the latter two thirds of the threat to cultural resources at the reserve. Similarly respondents across the age ranges rank management issues, and overuse as concerns that are less threatening to cultural resources. Notably, concerns about overuse are the most stratified in the 60-69 age range, with respondents ranking this concern as 1st, 2nd, 4th, or 6th-9th most threating to cultural resources at the reserve. There is similar stratification in this age range for infrastructure, tending to cluster in the 1st-4th most threatening concern for this age group. 
+
 Biggest Threat by ethnicity
 
 ```{r}
@@ -815,11 +820,12 @@ survey_data_q %>%
   ggplot() +
   aes(`Ethnicity`,
       value) +
-  geom_point(position="dodge") +
+  geom_point(position="dodge", aes(colour = `Ethnicity`)) +
   facet_wrap( ~ name) +
   theme(axis.text.x  = element_text(size = 3))
 ```
-In @fig-ethnicity-threat...
+In @fig-ethnicity-threat we can see that respondents who identify as African-American do not rank sea level rise, flooding, increased and intensified storm events, or wave action as the 1st or greatest threat to cultural resources at the GTM. African-American respondents ranked infrastructure (e.g. construction of roads), and "other" are the ranked as the most threatening. Development is the 2nd or 3rd greatest threat to the cultural resources for some African-American respondents in this demographic, whilst other African-American respondents rank increased and intensified storm events as the most threatening. Multi-racial respondents ranked development, management issues, and overuse as the most threating to cultural resources at the GTM. The rankings of individuals who identify as Caucasian (non-Hispanic) are the most stratified across threat level for each of the plots (with the exception of "Other (please describe)") because, as seen in @fig-ethnicity-plot, survey respondents are the most numerous in this demographic. No respondents who identify as non-Caucasian ranked flooding, increased and intensified storm events, or development as belonging in the lower third (7th-9th) or least threatening to cultural resources. 
+
 Biggest Threat by Gender
 
 ```{r}
@@ -850,16 +856,17 @@ survey_data_q %>%
   ggplot() +
   aes(`Gender`,
       value) +
-  geom_point() +
+  geom_point(aes(colour = `Gender`)) +
   facet_wrap( ~ name) +
   theme(axis.text.x  = element_text(size = 3))
 ```
-In @fig-gender-threat
+In @fig-gender-threat, respondents across all genders rank sea level rise  and flooding as 7th most threatening to cultural resources at the reserve, or higher. Similarly, no respondents of  any gender rank increased and intensified storm events as less threaning than the 6th most threatening to cultural resources at the reserve. Female and male respondents tend to group climate related threats as more highly threatening to cultural resources, whereas overuse and management issues tend to be ranked as less threatening to cultural resources at the reserve. Overall, concerns seem to align across gender.
+
 Biggest Threat by level of education
 
 ```{r}
 #|label: fig-edu-threat
-#| fig-cap: "Percieved Threat to Cultural Resources by Level of Education"
+#|fig-cap: "Percieved Threat to Cultural Resources by Level of Education"
 survey_data_q %>% 
   select(schooling = starts_with("Please select the highest degree or level of schooling you have completed"),
          starts_with("What do you see as the biggest threat to cultural resources?"),
@@ -891,7 +898,7 @@ survey_data_q %>%
   ggplot() +
   aes(`schooling`,
       value) +
-  geom_point() +
+  geom_point(aes(colour = `schooling))+
   facet_wrap( ~ name) +
   theme(axis.text.x  = element_text(size = 3))
 ```
