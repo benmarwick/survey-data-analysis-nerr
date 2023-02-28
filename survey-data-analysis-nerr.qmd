@@ -898,8 +898,8 @@ survey_data_q %>%
   ggplot() +
   aes(`schooling`,
       value) +
-  geom_point(aes(colour = `schooling))+
+  geom_point(aes(colour = `schooling`))+
   facet_wrap( ~ name) +
   theme(axis.text.x  = element_text(size = 3))
 ```
-In @fig-edu-threat...
+In @fig-edu-threat, respondents who have degrees assign stratified and individualized rankings across the given list of potential threats to the cultural resources at the reserve. Interestingly, there are respondents with degrees, with no degrees, or "other" who all rank increased and intensified storm events in the top two thirds (1-6) of their most threatening issues to the cultural resources at the reserve. Individuals without degrees also rank sea level rise and wave action amongst their top two threats to cultural resources at the reserve. Individuals without degrees rank infrastructure, overuse, and management issues as less threatening to cultural resources at the reserve.
