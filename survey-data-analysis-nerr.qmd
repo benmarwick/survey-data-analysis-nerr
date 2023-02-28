@@ -516,13 +516,14 @@ survey_data_q %>%
   filter(simple_encounter == "encountered") %>% 
   ggplot() +
   aes(`Age Range`,
-      n) +
+      n, fill = `Age Range`) +
   geom_col(position="dodge") +
   facet_wrap( ~ name) +
   theme(axis.text.x  = element_text(size = 3))
   
 ```
-In @fig-age-encountering-cultural-res
+In @fig-age-encountering-cultural-res no respondents older than 80 report encountering any of these cultural resources at the GTM. Six respondents in the range 18-29 report encountering shell middens, which is the greatest number of respondents belonging to any age group reporting an encounter with any cultural resource. Similarly, 5 respondents ages 60-69 report encountering shell middens, 4 respondents in the age range 30-39, and three or fewer in each of the remaining age ranges report encountering middens. Five respondents ages 60-69 also report encountering the remains of agricultural activitity. No respondents in the age 18-29 report encountering historic cemeteries. Five respondents aged 30-39 report encountering wells at the GTM. One respondent belonging to the 18-29, one to 30-39, one to 40-49, and one to the 70-79 age range report encountering "Slave" cabins. Respondents report encountering the remains of industrial activity and Spanish Missions in the fewest numbers overall. 
+
 Activity and Level of Education
 
 ```{r}
@@ -553,13 +554,16 @@ survey_data_q %>%
   group_by(kind_of_activities, schooling) %>% 
   summarise(n = n()) %>% 
   ggplot() +
-  aes(schooling, n) +
+  aes(schooling, n,   fill = schooling) +
   geom_col() +
   facet_wrap( ~ kind_of_activities, scales = "free_y") +
   theme(axis.text.x  = element_text(size = 3))
 
+# making n values into integers
+
+
 ```
-In @fig-activity-schooling...
+In @fig-activity-schooling , of the more than fifteen respondents who take part in research, almost all respondents report that they have a degree. In educational programming, more than 7 respondents report having a degree, while two or more do not, or report other. Most of the respondents taking part in any other activity are likely to have a degree because most of the survey respondents reported having at either a master's bachelor's degree in @fig-schooling-plot. 
 
 Awareness of cultural resources by Level of Education
 
@@ -596,13 +600,14 @@ survey_data_q %>%
   filter(simple_familarity == "familiar") %>% 
   ggplot() +
   aes(schooling,
-      n) +
+      n, fill = schooling) +
   geom_col(position="dodge") +
   facet_wrap( ~ name) +
   theme(axis.text.x  = element_text(size = 5))
 
 ```
-In @fig-edu-awareness-cult-res
+In @fig-edu-awareness-cult-res we can see that respondents without degrees report awareness of shell middens, mounds, and the remains of agricultural activity in greatest quantity. The most respondents with degrees report familiarity with "Slave" cabins and shell middens in the greatest numbers, at more than twenty each. Respondents with degrees almost halve when reporting familiarity with canals, remains of agricultural activitity, and remains of industrial activity, at less than ten respondents. Respondents without degrees do not report familiarity with historic cemeteries, and those selecting "other" report no familiarity with ship hards, docks, wharves, canals, and the remains of industrial activity. 
+
 Awareness of cultural resources by ethnicity
 
 ```{r}
@@ -634,7 +639,8 @@ survey_data_q %>%
   facet_wrap( ~ name) +
   theme(axis.text.x  = element_text(size = 3))
 ```
-In @fig-ethnicity-awareness-cult-res, since most of the survey respondents identify as Caucasian... different vis?
+In @fig-ethnicity-awareness-cult-res, since most of the survey respondents identify as Caucasian (non-Hispanic), as seen in @fig-ethnicity-plot , this demographic reports familiarity with cultural resources at the GTM in the greatest quantity. One or more respondents who identify as multiracial report familiarity with all of these cultural resources at the GTM. No respondents who identify as African-American, Asian/Pacific Islander, preferred not to answer or self-identified some other way reported familiarity with canals, remains of industrial activity, or ship hards, docks, and wharves. 
+
 Awareness of cultural resources by gender
 
 ```{r}
